@@ -13,7 +13,7 @@ class Client:
         
 
     def add(client):
-        data = Json.open_clients_json()
+        data = Json.JSON.open_clients_json()
 
         clientJson = {
             'id': client.id,
@@ -25,18 +25,18 @@ class Client:
         
         data.append(clientJson)
 
-        Json.save_clients_to_json(data)
+        Json.JSON.save_clients_to_json(data)
 
 
     def remove(id):
-        data = Json.open_clients_json()
+        data = Json.JSON.open_clients_json()
 
         for client in data:
             if client['id'] == id:
                 data.remove(client)
                 break
 
-        Json.save_clients_to_json(data)
+        Json.JSON.save_clients_to_json(data)
 
 
     def update(id, new_client):
@@ -50,11 +50,11 @@ class Client:
             'phoneNumber': new_client.phoneNumber
         }
 
-        data = Json.open_clients_json()
+        data = Json.JSON.open_clients_json()
         data.append(client)
 
-        Json.save_clients_to_json(data)
+        Json.JSON.save_clients_to_json(data)
 
 
     def getAll() -> []:
-        return Json.open_clients_json()
+        return Json.JSON.open_clients_json()

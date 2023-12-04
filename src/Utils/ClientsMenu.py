@@ -1,29 +1,68 @@
 import Classes.clients as Clients
+import re
 
-def AddClient():
-    Clients.Client.add(CreateClientInstance())
+class ClientsMenu:
+    def AddClient():
+        client = ClientsMenu.CreateClientInstance()
+        if client == None:
+            return
 
-def RemoveClient():
-    id = input("Id: ")
+        Clients.Client.add(client)
+        print("Client created.")
 
-    Clients.Client.remove(id=id)
+    def RemoveClient():
+        id = input("Id: ")
 
-def UpdateClient():
-    id = input("Id: ")
-    updatedClient = CreateClientInstance()
-    updatedClient.id = id
+        Clients.Client.remove(id=id)
+        print("Client removed.")
 
-    Clients.Client.update(id, updatedClient)
+    def UpdateClient():
+        id = input("Id: ")
+        updatedClient = ClientsMenu.CreateClientInstance()
+        updatedClient.id = id
 
-def PrintAll():
-    clients = Clients.Client.getAll()
-    print(clients)
+        Clients.Client.update(id, updatedClient)
+        print("Client updated.")
+
+    def PrintAll():
+        clients = Clients.Client.getAll()
+        print(clients)
 
 
-def CreateClientInstance() -> Clients.Client:
-    lastname = input("Lastname: ")
-    firstname = input("Firstname: ")
-    birthday = input("Birthday (dd/mm/yyyy): ")
-    phoneNumber = input("Phone number: ")
+    def CreateClientInstance() -> Clients.Client:
+        namesRegex = re.compile(r'^[a-zA-Z]+$')
 
-    return Clients.Client(lastname, firstname, birthday, phoneNumber)
+        lastname = input("Lastname: ")
+        if not namesRegex.match(lastname):
+            print("Incorrect Lastname!")
+            return None
+
+        firstname = input("Firstname: ")
+        if not namesRegex.match(firstname):
+            print("Incorrect Firstname!")
+            return None
+
+        birthday = input("Birthday (dd/mm/yyyy): ")
+        birthdayRegex = re.compile(r'^\d{2}/\d{2}/\d{4}$')
+        if not birthdayRegex.match(birthday):
+            print("Incorrect birthday date!")
+            return None
+
+        date = birthday.split("/")
+        if not int(date[0]) > 0 or not int(date[0]) < 32:
+            print("Incorrect birthday date!")
+            return None
+        if not int(date[1]) > 0 or not int(date[1]) < 13:
+            print("Incorrect birthday date!")
+            return None
+        if not int(date[2]) > 0 or not int(date[2]) < 9999:
+            print("Incorrect birthday date!")
+            return None
+
+        phoneNumber = input("Phone number: ")
+        phoneNumberRegex = re.compile(r'[0-9]{10}')
+        if not phoneNumberRegex.match(phoneNumber):
+            print("Incorrect phone number!")
+            return None
+
+        return Clients.Client(lastname, firstname, birthday, phoneNumber)

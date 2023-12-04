@@ -1,4 +1,4 @@
 import Utils.Menu as Menu
 
-Menu.mainMenu()
+Menu.Menu.mainMenu()
 exit(0)
