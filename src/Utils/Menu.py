@@ -1,11 +1,12 @@
 import Utils.ClientsMenu as ClientsMenu
+import Utils.BedroomsMenu as BedroomsMenu
 
 class Menu:
     def mainMenu():
         while(True):
             print("**** Main Menu ****\n"
                   "(1) Manage Clients\n"
-                  "(2) Manage Rooms\n"
+                  "(2) Manage Bedrooms\n"
                   "(3) Manage Reservations\n"
                   "(0) Exit")
     
@@ -23,7 +24,7 @@ class Menu:
             elif userInput == 1:
                 Menu.clientsMenu()
             elif userInput == 2:
-                Menu.roomsMenu()
+                Menu.bedroomsMenu()
             elif userInput == 3:
                 Menu.reservationsMenu()
     
@@ -57,9 +58,9 @@ class Menu:
                 ClientsMenu.ClientsMenu.PrintAll()
     
     
-    def roomsMenu():
+    def bedroomsMenu():
         while(True):
-            print("**** Rooms Menu ****\n"
+            print("**** Bedrooms Menu ****\n"
                   "(1) Add\n"
                   "(2) Update\n"
                   "(3) Remove\n"
@@ -70,10 +71,21 @@ class Menu:
             while(True):
                 userInput = int(input("Enter number:"))
     
-                if userInput >= 0 and userInput <= 3:
+                if userInput >= 0 and userInput <= 4:
                     break
                 
-                print("Enter a number between 0 and 3 !")
+                print("Enter a number between 0 and 4 !")
+
+            if userInput == 0:
+                break
+            elif userInput == 1:
+                BedroomsMenu.BedroomsMenu.AddBedroom()
+            elif userInput == 2:
+                BedroomsMenu.BedroomsMenu.UpdateBedroom()
+            elif userInput == 3:
+                BedroomsMenu.BedroomsMenu.RemoveBedroom()
+            elif userInput == 4:
+                BedroomsMenu.BedroomsMenu.PrintAll()
     
     
     def reservationsMenu():

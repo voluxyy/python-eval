@@ -1,6 +1,4 @@
 import uuid
-import os
-import json
 import Utils.Json as Json
 
 class Client:
@@ -13,7 +11,7 @@ class Client:
         
 
     def add(client):
-        data = Json.JSON.open_clients_json()
+        data = Json.JSON.open_clients_json("clients.json")
 
         clientJson = {
             'id': client.id,
@@ -25,18 +23,18 @@ class Client:
         
         data.append(clientJson)
 
-        Json.JSON.save_clients_to_json(data)
+        Json.JSON.save_clients_to_json("clients.json", data)
 
 
     def remove(id):
-        data = Json.JSON.open_clients_json()
+        data = Json.JSON.open_clients_json("clients.json")
 
         for client in data:
             if client['id'] == id:
                 data.remove(client)
                 break
 
-        Json.JSON.save_clients_to_json(data)
+        Json.JSON.save_clients_to_json("clients.json", data)
 
 
     def update(id, new_client):
@@ -50,11 +48,11 @@ class Client:
             'phoneNumber': new_client.phoneNumber
         }
 
-        data = Json.JSON.open_clients_json()
+        data = Json.JSON.open_clients_json("clients.json")
         data.append(client)
 
-        Json.JSON.save_clients_to_json(data)
+        Json.JSON.save_clients_to_json("clients.json", data)
 
 
     def getAll() -> []:
-        return Json.JSON.open_clients_json()
+        return Json.JSON.open_clients_json("clients.json")

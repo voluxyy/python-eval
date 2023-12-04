@@ -19,6 +19,9 @@ class ClientsMenu:
     def UpdateClient():
         id = input("Id: ")
         updatedClient = ClientsMenu.CreateClientInstance()
+        if updatedClient == None:
+            return
+        
         updatedClient.id = id
 
         Clients.Client.update(id, updatedClient)
