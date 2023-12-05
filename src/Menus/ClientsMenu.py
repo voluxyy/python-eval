@@ -1,4 +1,5 @@
-import Classes.clients as Clients
+import Classes.Clients as Clients
+import Utils.Colors as Colors
 import re
 
 class ClientsMenu:
@@ -8,13 +9,15 @@ class ClientsMenu:
             return
 
         Clients.Client.add(client)
-        print("Client created.")
+        print(Colors.Colors.green("Client created."))
+
 
     def RemoveClient():
         id = input("Id: ")
 
         Clients.Client.remove(id=id)
-        print("Client removed.")
+        print(Colors.Colors.green("Client removed."))
+
 
     def UpdateClient():
         id = ClientsMenu.ListChoice()
@@ -29,14 +32,18 @@ class ClientsMenu:
         updatedClient.id = id
 
         Clients.Client.update(id, updatedClient)
-        print("Client updated.")
+        print(Colors.Colors.green("Client updated."))
+
 
     def PrintAll():
         clients = Clients.Client.getAll()
 
-        print("\nList of clients: ")
-        for client in clients:
-            print(client['lastname']+", "+client['firstname']+", "+client['phoneNumber'])
+        if clients == []:
+            print(Colors.Colors.yellow("There is no clients."))
+        else:
+            print("\nList of clients: ")
+            for client in clients:
+                print(client['lastname']+", "+client['firstname']+", "+client['phoneNumber'])
 
 
     def CreateClientInstance() -> Clients.Client:
@@ -44,43 +51,44 @@ class ClientsMenu:
 
         lastname = input("Lastname: ")
         if not namesRegex.match(lastname):
-            print("Incorrect Lastname!")
+            print(Colors.Colors.red("Incorrect Lastname!"))
             return None
 
         firstname = input("Firstname: ")
         if not namesRegex.match(firstname):
-            print("Incorrect Firstname!")
+            print(Colors.Colors.red("Incorrect Firstname!"))
             return None
 
         birthday = input("Birthday (dd/mm/yyyy): ")
         birthdayRegex = re.compile(r'^\d{2}/\d{2}/\d{4}$')
         if not birthdayRegex.match(birthday):
-            print("Incorrect birthday date!")
+            print(Colors.Colors.red("Incorrect birthday date!"))
             return None
 
         date = birthday.split("/")
         if not int(date[0]) > 0 or not int(date[0]) < 32:
-            print("Incorrect birthday date!")
+            print(Colors.Colors.red("Incorrect birthday date!"))
             return None
         if not int(date[1]) > 0 or not int(date[1]) < 13:
-            print("Incorrect birthday date!")
+            print(Colors.Colors.red("Incorrect birthday date!"))
             return None
         if not int(date[2]) > 0 or not int(date[2]) < 9999:
-            print("Incorrect birthday date!")
+            print(Colors.Colors.red("Incorrect birthday date!"))
             return None
 
         phoneNumber = input("Phone number: ")
         phoneNumberRegex = re.compile(r'[0-9]{10}')
         if not phoneNumberRegex.match(phoneNumber):
-            print("Incorrect phone number!")
+            print(Colors.Colors.red("Incorrect phone number!"))
             return None
 
         return Clients.Client(lastname, firstname, birthday, phoneNumber)
     
+    
     def ListChoice():
         clients = Clients.Client.getAll()
         if len(clients) < 1:
-            print("There is no clients.")
+            print(Colors.Colors.yellow("There is no clients."))
             return None
 
         for i, client in enumerate(clients):
@@ -94,7 +102,7 @@ class ClientsMenu:
             if userInput >= 0 and userInput <= len(clients):
                 break
 
-            print("Enter a number between 0 and "+str(len(clients))+" !")
+            print(Colors.Colors.cyan("Enter a number between 0 and "+str(len(clients))+" !"))
 
         if userInput == 0:
             return None

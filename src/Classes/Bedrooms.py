@@ -9,7 +9,7 @@ class Bedroom:
         
 
     def add(bedroom):
-        data = Json.JSON.open_clients_json("bedrooms.json")
+        data = Json.JSON.openJson("bedrooms.json")
 
         bedroomJson = {
             'id': bedroom.id,
@@ -19,34 +19,34 @@ class Bedroom:
         
         data.append(bedroomJson)
 
-        Json.JSON.save_clients_to_json("bedrooms.json", data)
+        Json.JSON.saveJson("bedrooms.json", data)
 
 
     def remove(id):
-        data = Json.JSON.open_clients_json("bedrooms.json")
+        data = Json.JSON.openJson("bedrooms.json")
 
         for bedroom in data:
             if bedroom['id'] == id:
                 data.remove(bedroom)
                 break
 
-        Json.JSON.save_clients_to_json("bedrooms.json", data)
+        Json.JSON.saveJson("bedrooms.json", data)
 
 
-    def update(id, new_bedroom):
+    def update(id, newBedroom):
         Bedroom.remove(id)
 
         bedroom = {
             'id': id,
-            'type': new_bedroom.type,
-            'price': int(new_bedroom.price)
+            'type': newBedroom.type,
+            'price': int(newBedroom.price)
         }
 
-        data = Json.JSON.open_clients_json("bedrooms.json")
+        data = Json.JSON.openJson("bedrooms.json")
         data.append(bedroom)
 
-        Json.JSON.save_clients_to_json("bedrooms.json", data)
+        Json.JSON.saveJson("bedrooms.json", data)
 
 
     def getAll() -> []:
-        return Json.JSON.open_clients_json("bedrooms.json")
+        return Json.JSON.openJson("bedrooms.json")

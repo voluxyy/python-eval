@@ -11,7 +11,7 @@ class Client:
         
 
     def add(client):
-        data = Json.JSON.open_clients_json("clients.json")
+        data = Json.JSON.openJson("clients.json")
 
         clientJson = {
             'id': client.id,
@@ -23,36 +23,36 @@ class Client:
         
         data.append(clientJson)
 
-        Json.JSON.save_clients_to_json("clients.json", data)
+        Json.JSON.saveJson("clients.json", data)
 
 
     def remove(id):
-        data = Json.JSON.open_clients_json("clients.json")
+        data = Json.JSON.openJson("clients.json")
 
         for client in data:
             if client['id'] == id:
                 data.remove(client)
                 break
 
-        Json.JSON.save_clients_to_json("clients.json", data)
+        Json.JSON.saveJson("clients.json", data)
 
 
-    def update(id, new_client):
+    def update(id, newClient):
         Client.remove(id)
 
         client = {
             'id': id,
-            'lastname': new_client.lastname,
-            'firstname': new_client.firstname,
-            'birthday': str(new_client.birthday),
-            'phoneNumber': new_client.phoneNumber
+            'lastname': newClient.lastname,
+            'firstname': newClient.firstname,
+            'birthday': str(newClient.birthday),
+            'phoneNumber': newClient.phoneNumber
         }
 
-        data = Json.JSON.open_clients_json("clients.json")
+        data = Json.JSON.openJson("clients.json")
         data.append(client)
 
-        Json.JSON.save_clients_to_json("clients.json", data)
+        Json.JSON.saveJson("clients.json", data)
 
 
     def getAll() -> []:
-        return Json.JSON.open_clients_json("clients.json")
+        return Json.JSON.openJson("clients.json")

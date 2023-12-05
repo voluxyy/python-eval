@@ -1,11 +1,13 @@
-import Utils.ClientsMenu as ClientsMenu
-import Utils.BedroomsMenu as BedroomsMenu
+import Menus.ClientsMenu as ClientsMenu
+import Menus.BedroomsMenu as BedroomsMenu
+import Menus.ReservationsMenu as ReservationsMenu
+import Utils.Colors as Colors
 
 class Menu:
     def mainMenu():
         while(True):
-            print("\n**** Main Menu ****\n"
-                  "(1) Manage Clients\n"
+            print(Colors.Colors.blue("\n**** Main Menu ****"))
+            print("(1) Manage Clients\n"
                   "(2) Manage Bedrooms\n"
                   "(3) Manage Reservations\n"
                   "(0) Exit")
@@ -13,19 +15,19 @@ class Menu:
             userInput = 0
             while(True):
                 while(True):
-                    userInput = input("Enter number:")
+                    userInput = input(Colors.Colors.magenta("Enter number:"))
 
                     if userInput.isdigit():
                         break
 
-                    print("You can only enter integer to choose!")
+                    print(Colors.Colors.red("You can only enter integer to choose!"))
                     
                 userInput = int(userInput)
 
                 if userInput >= 0 and userInput <= 3:
                     break
                 
-                print("Enter a number between 0 and 3 !")
+                print(Colors.Colors.red("Enter a number between 0 and 3 !"))
     
             if userInput == 0:
                 break
@@ -36,10 +38,11 @@ class Menu:
             elif userInput == 3:
                 Menu.reservationsMenu()
     
+
     def clientsMenu():
         while(True):
-            print("\n**** Clients Menu ****\n"
-                  "(1) Add\n"
+            print(Colors.Colors.blue("\n**** Clients Menu ****"))
+            print("(1) Add\n"
                   "(2) Update\n"
                   "(3) Remove\n"
                   "(4) List all\n"
@@ -47,12 +50,20 @@ class Menu:
     
             userInput = 0
             while(True):
-                userInput = int(input("Enter number:"))
-    
+                while(True):
+                    userInput = input(Colors.Colors.magenta("Enter number:"))
+
+                    if userInput.isdigit():
+                        break
+
+                    print(Colors.Colors.red("You can only enter integer to choose!"))
+                    
+                userInput = int(userInput)
+
                 if userInput >= 0 and userInput <= 4:
                     break
                 
-                print("Enter a number between 0 and 4 !")
+                print(Colors.Colors.red("Enter a number between 0 and 4 !"))
     
             if userInput == 0:
                 break
@@ -68,8 +79,8 @@ class Menu:
     
     def bedroomsMenu():
         while(True):
-            print("\n**** Bedrooms Menu ****\n"
-                  "(1) Add\n"
+            print(Colors.Colors.blue("\n**** Bedrooms Menu ****"))
+            print("(1) Add\n"
                   "(2) Update\n"
                   "(3) Remove\n"
                   "(4) Print all\n"
@@ -77,12 +88,20 @@ class Menu:
     
             userInput = 0
             while(True):
-                userInput = int(input("Enter number:"))
-    
+                while(True):
+                    userInput = input(Colors.Colors.magenta("Enter number:"))
+
+                    if userInput.isdigit():
+                        break
+
+                    print(Colors.Colors.red("You can only enter integer to choose!"))
+                    
+                userInput = int(userInput)
+
                 if userInput >= 0 and userInput <= 4:
                     break
                 
-                print("Enter a number between 0 and 4 !")
+                print(Colors.Colors.red("Enter a number between 0 and 4 !"))
 
             if userInput == 0:
                 break
@@ -98,8 +117,8 @@ class Menu:
     
     def reservationsMenu():
         while(True):
-            print("\n**** Reservations Menu ****\n"
-                  "(1) Add\n"
+            print(Colors.Colors.blue("\n**** Reservations Menu ****"))
+            print("(1) Add\n"
                   "(2) Update\n"
                   "(3) Remove\n"
                   "(4) List all\n"
@@ -107,9 +126,28 @@ class Menu:
     
             userInput = 0
             while(True):
-                userInput = int(input("Enter number:"))
-    
-                if userInput >= 0 and userInput <= 3:
+                while(True):
+                    userInput = input(Colors.Colors.magenta("Enter number:"))
+
+                    if userInput.isdigit():
+                        break
+
+                    print(Colors.Colors.red("You can only enter integer to choose!"))
+                    
+                userInput = int(userInput)
+
+                if userInput >= 0 and userInput <= 4:
                     break
                 
-                print("Enter a number between 0 and 3 !")
+                print(Colors.Colors.red("Enter a number between 0 and 4 !"))
+
+            if userInput == 0:
+                break
+            elif userInput == 1:
+                ReservationsMenu.ReservationsMenu.AddReservation()
+            elif userInput == 2:
+                ReservationsMenu.ReservationsMenu.UpdateReservation()
+            elif userInput == 3:
+                ReservationsMenu.ReservationsMenu.RemoveReservation()
+            elif userInput == 4:
+                ReservationsMenu.ReservationsMenu.PrintAll()
