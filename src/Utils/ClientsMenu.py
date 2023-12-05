@@ -17,11 +17,15 @@ class ClientsMenu:
         print("Client removed.")
 
     def UpdateClient():
-        id = input("Id: ")
+        id = ClientsMenu.ListChoice()
+
+        if id == None:
+            return
+        
         updatedClient = ClientsMenu.CreateClientInstance()
         if updatedClient == None:
             return
-        
+
         updatedClient.id = id
 
         Clients.Client.update(id, updatedClient)
@@ -29,7 +33,10 @@ class ClientsMenu:
 
     def PrintAll():
         clients = Clients.Client.getAll()
-        print(clients)
+
+        print("\nList of clients: ")
+        for client in clients:
+            print(client['lastname']+", "+client['firstname']+", "+client['phoneNumber'])
 
 
     def CreateClientInstance() -> Clients.Client:
@@ -69,3 +76,27 @@ class ClientsMenu:
             return None
 
         return Clients.Client(lastname, firstname, birthday, phoneNumber)
+    
+    def ListChoice():
+        clients = Clients.Client.getAll()
+        if len(clients) < 1:
+            print("There is no clients.")
+            return None
+
+        for i, client in enumerate(clients):
+            print("("+str(i+1)+") "+client['lastname']+", "+client['firstname']+", "+client['phoneNumber'])
+        
+        print("(0) Go back")
+
+        while(True):
+            userInput = int(input("Id: "))
+
+            if userInput >= 0 and userInput <= len(clients):
+                break
+
+            print("Enter a number between 0 and "+str(len(clients))+" !")
+
+        if userInput == 0:
+            return None
+
+        return str(clients[userInput-1]['id'])

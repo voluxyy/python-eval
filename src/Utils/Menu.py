@@ -4,7 +4,7 @@ import Utils.BedroomsMenu as BedroomsMenu
 class Menu:
     def mainMenu():
         while(True):
-            print("**** Main Menu ****\n"
+            print("\n**** Main Menu ****\n"
                   "(1) Manage Clients\n"
                   "(2) Manage Bedrooms\n"
                   "(3) Manage Reservations\n"
@@ -12,8 +12,16 @@ class Menu:
     
             userInput = 0
             while(True):
-                userInput = int(input("Enter number:"))
-    
+                while(True):
+                    userInput = input("Enter number:")
+
+                    if userInput.isdigit():
+                        break
+
+                    print("You can only enter integer to choose!")
+                    
+                userInput = int(userInput)
+
                 if userInput >= 0 and userInput <= 3:
                     break
                 
@@ -30,7 +38,7 @@ class Menu:
     
     def clientsMenu():
         while(True):
-            print("**** Clients Menu ****\n"
+            print("\n**** Clients Menu ****\n"
                   "(1) Add\n"
                   "(2) Update\n"
                   "(3) Remove\n"
@@ -60,7 +68,7 @@ class Menu:
     
     def bedroomsMenu():
         while(True):
-            print("**** Bedrooms Menu ****\n"
+            print("\n**** Bedrooms Menu ****\n"
                   "(1) Add\n"
                   "(2) Update\n"
                   "(3) Remove\n"
@@ -90,7 +98,7 @@ class Menu:
     
     def reservationsMenu():
         while(True):
-            print("**** Reservations Menu ****\n"
+            print("\n**** Reservations Menu ****\n"
                   "(1) Add\n"
                   "(2) Update\n"
                   "(3) Remove\n"

@@ -1,1 +1,16 @@
-[]
+[
+    {
+        "birthday": "11/02/1995",
+        "firstname": "Florent",
+        "id": "280cacb7-29f5-4f45-bbbf-e776fd605768",
+        "lastname": "Detres",
+        "phoneNumber": "0783025264"
+    },
+    {
+        "birthday": "31/10/2004",
+        "firstname": "Anael",
+        "id": "abc2890e-2b7c-47b1-b91d-97760e931f9f",
+        "lastname": "Lasserre",
+        "phoneNumber": "0641048415"
+    }
+]
