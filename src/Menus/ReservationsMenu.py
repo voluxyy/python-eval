@@ -16,6 +16,8 @@ class ReservationsMenu:
 
     def RemoveReservation():
         id = ReservationsMenu.ListChoice()
+        if id == None:
+            return
 
         Reservations.Reservation.remove(id=id)
         print(Colors.Colors.green("Reservation removed."))
@@ -49,18 +51,26 @@ class ReservationsMenu:
 
 
     def CreateReservationInstance() -> Reservations.Reservation:
+        print("Which client: ")
+        clientId = ClientsMenu.ClientsMenu.ListChoice()
+
+        print("Which room: ")
+        bedroomId = BedroomsMenu.BedroomsMenu.ListChoice()
+
         dateRegex = re.compile(r'^\d{2}/\d{2}/\d{4}$')
 
         dateStart = input("Date start (dd/mm/yyyy): ")
-        if not dateRegex.match(dateStart) or not ReservationsMenu.verifyDate(dateStart):
+        if not dateRegex.match(dateStart) or not ReservationsMenu.verifyDateFormat(dateStart):
             print(Colors.Colors.red("Incorrect date end!"))
             return None
+        
+        # Todo: add condition if there is already a reservation on this date
         
         dateStartSplitted = dateStart.split("/")
         dtStart = dt.datetime(int(dateStartSplitted[2]), int(dateStartSplitted[1]), int(dateStartSplitted[0]))
         
         dateEnd = input("Date end (dd/mm/yyyy): ")
-        if not dateRegex.match(dateEnd) or not ReservationsMenu.verifyDate(dateEnd):
+        if not dateRegex.match(dateEnd) or not ReservationsMenu.verifyDateFormat(dateEnd):
             print(Colors.Colors.red("Incorrect date end!"))
             return None
         
@@ -71,17 +81,11 @@ class ReservationsMenu:
         if paymentMethod not in ["Carte", "Paypal", "Espece"]:
             print(Colors.Colors.red("Incorrect payment  method!"))
             return None
-        
-        print("Which client: ")
-        clientId = ClientsMenu.ClientsMenu.ListChoice()
-
-        print("Which room: ")
-        bedroomId = BedroomsMenu.BedroomsMenu.ListChoice()
 
         return Reservations.Reservation(dtStart, dtEnd, paymentMethod, clientId, bedroomId)
     
 
-    def verifyDate(date) -> bool:
+    def verifyDateFormat(date) -> bool:
         dateStartSplited = date.split("/")
 
         if not int(dateStartSplited[0]) > 0 or not int(dateStartSplited[0]) < 32:
@@ -95,6 +99,9 @@ class ReservationsMenu:
         
         return True
 
+
+    def verifyDate() -> bool:
+        return False
 
     def ListChoice():
         reservations = Reservations.Reservation.getAll()

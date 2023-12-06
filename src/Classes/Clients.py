@@ -27,14 +27,22 @@ class Client:
 
 
     def remove(id):
-        data = Json.JSON.openJson("clients.json")
+        clients = Json.JSON.openJson("clients.json")
 
-        for client in data:
+        for client in clients:
             if client['id'] == id:
-                data.remove(client)
+                clients.remove(client)
                 break
 
-        Json.JSON.saveJson("clients.json", data)
+        Json.JSON.saveJson("clients.json", clients)
+
+        reservations = Json.JSON.openJson("reservations.json")
+
+        for reservation in reservations:
+            if reservation['clientId'] == id:
+                reservations.remove(reservation)
+
+        Json.JSON.saveJson("reservations.json", reservations)
 
 
     def update(id, newClient):

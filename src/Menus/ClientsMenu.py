@@ -14,6 +14,8 @@ class ClientsMenu:
 
     def RemoveClient():
         id = ClientsMenu.ListChoice()
+        if id == None:
+            return
 
         Clients.Client.remove(id=id)
         print(Colors.Colors.green("Client removed."))
@@ -21,7 +23,6 @@ class ClientsMenu:
 
     def UpdateClient():
         id = ClientsMenu.ListChoice()
-
         if id == None:
             return
         

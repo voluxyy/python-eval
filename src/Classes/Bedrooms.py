@@ -23,14 +23,22 @@ class Bedroom:
 
 
     def remove(id):
-        data = Json.JSON.openJson("bedrooms.json")
+        bedrooms = Json.JSON.openJson("bedrooms.json")
 
-        for bedroom in data:
+        for bedroom in bedrooms:
             if bedroom['id'] == id:
-                data.remove(bedroom)
+                bedrooms.remove(bedroom)
                 break
+            
+        Json.JSON.saveJson("bedrooms.json", bedrooms)
 
-        Json.JSON.saveJson("bedrooms.json", data)
+        reservations = Json.JSON.openJson("reservations.json")
+
+        for reservation in reservations:
+            if reservation['bedroomId'] == id:
+                reservations.remove(reservation)
+
+        Json.JSON.saveJson("reservations.json", reservations)
 
 
     def update(id, newBedroom):

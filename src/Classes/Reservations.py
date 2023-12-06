@@ -79,6 +79,18 @@ class Reservation:
 
         return reservationsFormat
     
+
+    def getReservationByBedroomId(id):
+        reservations = Json.JSON.openJson("reservations.json")
+        reservationsContainsId = []
+        
+        for reservation in reservations:
+            if reservation['bedroomId'] == id:
+                reservationsContainsId.append(reservation)
+
+        return reservationsContainsId
+        
+    
     @staticmethod
     def getAvailableBedRooms(date1, date2):
         reservations = Reservation.getAll()
