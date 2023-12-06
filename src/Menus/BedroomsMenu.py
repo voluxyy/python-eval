@@ -41,7 +41,9 @@ class BedroomsMenu:
         if bedrooms == []: 
             print(Colors.Colors.yellow("There is no bedrooms.")) 
         else: 
-            print(bedrooms)
+            print("\nList of bedrooms: ")
+            for bedroom in bedrooms:
+                print(bedroom['type']+", "+str(bedroom['price']))
 
 
     def CreateBedroomInstance() -> Bedrooms.Bedroom:

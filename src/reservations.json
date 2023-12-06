@@ -1,8 +1,10 @@
 [
     {
-        "dateEnd": "10/10/2006",
-        "dateStart": "10/10/2005",
-        "id": "c65df437-a648-4659-b557-c891d4a25c75",
+        "bedroomId": "753b0494-ef7b-4fe7-bfe8-0677bd3285f5",
+        "clientId": "280cacb7-29f5-4f45-bbbf-e776fd605768",
+        "dateEnd": "2001-10-10 00:00:00",
+        "dateStart": "2000-10-10 00:00:00",
+        "id": "b0f18abf-ccc1-4cd1-8ed9-88f6b4212c80",
         "payment": "Carte"
     }
 ]

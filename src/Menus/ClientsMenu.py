@@ -13,7 +13,7 @@ class ClientsMenu:
 
 
     def RemoveClient():
-        id = input("Id: ")
+        id = ClientsMenu.ListChoice()
 
         Clients.Client.remove(id=id)
         print(Colors.Colors.green("Client removed."))
