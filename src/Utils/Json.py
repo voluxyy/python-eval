@@ -19,7 +19,7 @@ class JSON:
     
     def exportCsv(csv_filename, filteredReservations):
         with open(csv_filename, '+w') as csvfile:
-            fieldnames = ['Reservation ID', 'Date Start', 'Date End', 'Payment']
+            fieldnames = ['Reservation ID', 'Date Start', 'Date End', 'Payment', 'Client ID', 'Bedroom ID']
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
             writer.writeheader()
             for reservation in filteredReservations:
@@ -27,5 +27,7 @@ class JSON:
                     'Reservation ID': reservation['id'],
                     'Date Start': reservation['dateStart'],
                     'Date End': reservation['dateEnd'],
-                    'Payment': reservation['payment']
+                    'Payment': reservation['payment'],
+                    'Client ID': reservation['clientId'],
+                    'Bedroom ID': reservation['bedroomId']
                 })
