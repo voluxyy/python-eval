@@ -92,21 +92,13 @@ class Reservation:
         
     
     @staticmethod
-    def getAvailableBedRooms(date1, date2):
+    def getAvailableBedRooms(date1, date2) -> []:
         reservations = Reservation.getAll()
-
-        date1 = dt.strptime(date1, '%Y-%m-%d')
-        date2 = dt.strptime(date2, '%Y-%m-%d')
 
         available_rooms = []
 
         for reservation in reservations:
-            dateStart = dt.strptime(reservation['dateStart'], '%Y-%m-%dT%H:%M:%S')
-            dateEnd = dt.strptime(reservation['dateEnd'], '%Y-%m-%dT%H:%M:%S')
-
-            if not (date2 < dateStart or date1 > dateEnd):
-                break
-            else:
+            if reservation['dateStart'] >= date1 and reservation['dateEnd'] <= date2:
                 available_rooms.append(reservation)
 
         return available_rooms

@@ -122,6 +122,7 @@ class Menu:
                   "(2) Update\n"
                   "(3) Remove\n"
                   "(4) List all\n"
+                  "(5) Export to csv\n"
                   "(0) Go back")
     
             userInput = 0
@@ -136,7 +137,7 @@ class Menu:
                     
                 userInput = int(userInput)
 
-                if userInput >= 0 and userInput <= 4:
+                if userInput >= 0 and userInput <= 5:
                     break
                 
                 print(Colors.Colors.red("Enter a number between 0 and 4 !"))
@@ -151,3 +152,5 @@ class Menu:
                 ReservationsMenu.ReservationsMenu.RemoveReservation()
             elif userInput == 4:
                 ReservationsMenu.ReservationsMenu.PrintAll()
+            elif userInput == 5:
+                ReservationsMenu.ReservationsMenu.ExportToCsv()

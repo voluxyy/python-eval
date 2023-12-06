@@ -1,6 +1,7 @@
 import Classes.Reservations as Reservations
 from Menus import ClientsMenu, BedroomsMenu
 import Utils.Colors as Colors
+import Utils.Json as Json
 import datetime as dt
 import re
 
@@ -50,12 +51,51 @@ class ReservationsMenu:
                 print(str(reservation['dateStart'])+", "+str(reservation['dateEnd'])+", "+reservation['payment'])
 
 
+    def ExportToCsv():
+        dateRegex = re.compile(r'^\d{2}/\d{2}/\d{4}$')
+
+        inputStartDate = input("Date start (dd/mm/yyyy): ")
+        if not dateRegex.match(inputStartDate) or not ReservationsMenu.verifyDateFormat(inputStartDate):
+            print(Colors.Colors.red("Incorrect date start!"))
+            return None
+        
+        inputEndDate = input("Date end (dd/mm/yyyy): ")
+        if not dateRegex.match(inputEndDate) or not ReservationsMenu.verifyDateFormat(inputEndDate):
+            print(Colors.Colors.red("Incorrect date end!"))
+            return None
+
+        dtStart = dt.datetime.strptime(inputStartDate, '%d/%m/%Y')
+        dtEnd = dt.datetime.strptime(inputEndDate, '%d/%m/%Y')
+
+        if dtStart >= dtEnd:
+            print(Colors.Colors.red("Start date cannot be after or the same as end date!"))
+            return None
+        
+        filteredReservations = Reservations.Reservation.getAvailableBedRooms(dtStart, dtEnd)
+
+        if not filteredReservations:
+            print(Colors.Colors.yellow("Aucune réservation pour la période spécifiée."))
+            return None
+        
+        dateStartOnly = str(dtStart.isoformat().split("T")[0])
+        dateEndOnly = str(dtEnd.isoformat().split("T")[0])
+        csv_filename = f"reservations_{dateStartOnly}_{dateEndOnly}.csv"
+
+        Json.JSON.exportCsv(csv_filename, filteredReservations)
+
+        print(Colors.Colors.green(f"Reservations from {inputStartDate} to {inputEndDate} has been exported in {csv_filename}."))
+
+
     def CreateReservationInstance() -> Reservations.Reservation:
         print("Which client: ")
         clientId = ClientsMenu.ClientsMenu.ListChoice()
+        if clientId == None:
+            return
 
         print("Which room: ")
         bedroomId = BedroomsMenu.BedroomsMenu.ListChoice()
+        if bedroomId == None:
+            return
 
         dateRegex = re.compile(r'^\d{2}/\d{2}/\d{4}$')
 
@@ -110,7 +150,7 @@ class ReservationsMenu:
             return None
 
         for i, reservation in enumerate(reservations):
-            print("("+str(i+1)+") "+str(reservation['dateStart'])+", "+str(reservation['dateEnd'])+", "+reservation['payment'])
+            print(f"({str(i+1)}) {str(reservation['dateStart'])}, {str(reservation['dateEnd'])}, {reservation['payment']}")
         
         print("(0) Go back")
 
@@ -120,7 +160,7 @@ class ReservationsMenu:
             if userInput >= 0 and userInput <= len(reservations):
                 break
 
-            print(Colors.Colors.cyan("Enter a number between 0 and "+str(len(reservations))+" !"))
+            print(Colors.Colors.cyan(f"Enter a number between 0 and {str(len(reservations))} !"))
 
         if userInput == 0:
             return None

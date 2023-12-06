@@ -43,7 +43,7 @@ class BedroomsMenu:
         else: 
             print("\nList of bedrooms: ")
             for bedroom in bedrooms:
-                print(bedroom['type']+", "+str(bedroom['price']))
+                print(f"{bedroom['type']}, {str(bedroom['price'])}")
 
 
     def CreateBedroomInstance() -> Bedrooms.Bedroom:
@@ -68,7 +68,7 @@ class BedroomsMenu:
             return None
 
         for i, bedroom in enumerate(bedrooms):
-            print("("+str(i+1)+") "+bedroom['type']+", "+str(bedroom['price']))
+            print(f"({str(i+1)}) {bedroom['type']}, {str(bedroom['price'])}")
         
         print("(0) Go back")
 
@@ -78,7 +78,7 @@ class BedroomsMenu:
             if userInput >= 0 and userInput <= len(bedrooms):
                 break
 
-            print(Colors.Colors.cyan("Enter a number between 0 and "+str(len(bedrooms))+" !"))
+            print(Colors.Colors.cyan(f"Enter a number between 0 and {str(len(bedrooms))} !"))
 
         if userInput == 0:
             return None

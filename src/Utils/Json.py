@@ -1,5 +1,6 @@
 import json
 import os
+import csv
 
 class JSON:
     def saveJson(file_path, data):
@@ -15,3 +16,16 @@ class JSON:
             existing_data = []
 
         return existing_data
+    
+    def exportCsv(csv_filename, filteredReservations):
+        with open(csv_filename, '+w') as csvfile:
+            fieldnames = ['Reservation ID', 'Date Start', 'Date End', 'Payment']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            for reservation in filteredReservations:
+                writer.writerow({
+                    'Reservation ID': reservation['id'],
+                    'Date Start': reservation['dateStart'],
+                    'Date End': reservation['dateEnd'],
+                    'Payment': reservation['payment']
+                })

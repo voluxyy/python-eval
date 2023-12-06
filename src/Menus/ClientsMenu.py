@@ -44,7 +44,7 @@ class ClientsMenu:
         else:
             print("\nList of clients: ")
             for client in clients:
-                print(client['lastname']+", "+client['firstname']+", "+client['phoneNumber'])
+                print(f"{client['lastname']}, {client['firstname']}, {client['phoneNumber']}")
 
 
     def CreateClientInstance() -> Clients.Client:
@@ -93,7 +93,7 @@ class ClientsMenu:
             return None
 
         for i, client in enumerate(clients):
-            print("("+str(i+1)+") "+client['lastname']+", "+client['firstname']+", "+client['phoneNumber'])
+            print(f"({str(i+1)}) {client['lastname']}, {client['firstname']}, {client['phoneNumber']}")
         
         print("(0) Go back")
 
@@ -103,7 +103,7 @@ class ClientsMenu:
             if userInput >= 0 and userInput <= len(clients):
                 break
 
-            print(Colors.Colors.cyan("Enter a number between 0 and "+str(len(clients))+" !"))
+            print(Colors.Colors.cyan(f"Enter a number between 0 and {str(len(clients))} !"))
 
         if userInput == 0:
             return None
