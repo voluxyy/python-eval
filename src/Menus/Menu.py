@@ -12,22 +12,8 @@ class Menu:
                   "(3) Manage Reservations\n"
                   "(0) Exit")
     
-            userInput = 0
-            while(True):
-                while(True):
-                    userInput = input(Colors.magenta("Enter number:"))
+            userInput = Menu.Input("Enter number: ", 0, 3)
 
-                    if userInput.isdigit():
-                        break
-
-                    print(Colors.red("You can only enter integer to choose!"))
-                    
-                userInput = int(userInput)
-
-                if userInput >= 0 and userInput <= 3:
-                    break
-                
-                print(Colors.red("Enter a number between 0 and 3 !"))
     
             if userInput == 0:
                 break
@@ -48,22 +34,7 @@ class Menu:
                   "(4) List all\n"
                   "(0) Go back")
     
-            userInput = 0
-            while(True):
-                while(True):
-                    userInput = input(Colors.magenta("Enter number:"))
-
-                    if userInput.isdigit():
-                        break
-
-                    print(Colors.red("You can only enter integer to choose!"))
-                    
-                userInput = int(userInput)
-
-                if userInput >= 0 and userInput <= 4:
-                    break
-                
-                print(Colors.red("Enter a number between 0 and 4 !"))
+            userInput = Menu.Input("Enter number: ", 0, 4)
     
             if userInput == 0:
                 break
@@ -86,22 +57,7 @@ class Menu:
                   "(4) Print all\n"
                   "(0) Go back")
     
-            userInput = 0
-            while(True):
-                while(True):
-                    userInput = input(Colors.magenta("Enter number:"))
-
-                    if userInput.isdigit():
-                        break
-
-                    print(Colors.red("You can only enter integer to choose!"))
-                    
-                userInput = int(userInput)
-
-                if userInput >= 0 and userInput <= 4:
-                    break
-                
-                print(Colors.red("Enter a number between 0 and 4 !"))
+            userInput = Menu.Input("Enter number: ", 0, 4)
 
             if userInput == 0:
                 break
@@ -125,22 +81,7 @@ class Menu:
                   "(5) Export to csv\n"
                   "(0) Go back")
     
-            userInput = 0
-            while(True):
-                while(True):
-                    userInput = input(Colors.magenta("Enter number:"))
-
-                    if userInput.isdigit():
-                        break
-
-                    print(Colors.red("You can only enter integer to choose!"))
-                    
-                userInput = int(userInput)
-
-                if userInput >= 0 and userInput <= 5:
-                    break
-                
-                print(Colors.red("Enter a number between 0 and 4 !"))
+            userInput = Menu.Input("Enter number: ", 0, 5)
 
             if userInput == 0:
                 break
@@ -154,3 +95,22 @@ class Menu:
                 ReservationsMenu.PrintAll()
             elif userInput == 5:
                 ReservationsMenu.ExportToCsv()
+
+    def Input(str, min, max):
+        while(True):
+            while(True):
+                userInput = input(Colors.magenta(str))
+
+                if userInput.isdigit():
+                    break
+
+                print(Colors.red("You can only enter integer to choose!"))
+                    
+            userInput = int(userInput)
+
+            if userInput >= min and userInput <= max:
+                break
+                
+            print(Colors.red(f"Enter a number between {min} and {max} !"))
+
+        return userInput

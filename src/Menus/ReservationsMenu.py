@@ -56,12 +56,12 @@ class ReservationsMenu:
         dateRegex = re.compile(r'^\d{2}/\d{2}/\d{4}$')
 
         inputStartDate = input("Date start (dd/mm/yyyy): ")
-        if not (dateRegex.match(inputEndDate) or ReservationsMenu.verifyDateFormat(inputEndDate)) or inputEndDate == "":
+        if inputStartDate == "" or not (dateRegex.match(inputStartDate) or ReservationsMenu.verifyDateFormat(inputStartDate)):
             print(Colors.red("Incorrect date start!"))
             return None
         
         inputEndDate = input("Date end (dd/mm/yyyy): ")
-        if not (dateRegex.match(inputEndDate) or ReservationsMenu.verifyDateFormat(inputEndDate)) or inputEndDate == "":
+        if inputEndDate == "" or not (dateRegex.match(inputEndDate) or ReservationsMenu.verifyDateFormat(inputEndDate)):
             print(Colors.red("Incorrect date end!"))
             return None
 
@@ -89,19 +89,19 @@ class ReservationsMenu:
 
     def CreateReservationInstance() -> Reservation:
         print("Which client: ")
-        clientId = ClientsMenu.ClientsMenu.ListChoice()
+        clientId = ClientsMenu.ListChoice()
         if clientId == None:
             return
 
         print("Which room: ")
-        bedroomId = BedroomsMenu.BedroomsMenu.ListChoice()
+        bedroomId = BedroomsMenu.ListChoice()
         if bedroomId == None:
             return
 
         dateRegex = re.compile(r'^\d{2}/\d{2}/\d{4}$')
 
         dateStart = input("Date start (dd/mm/yyyy): ")
-        if not (dateRegex.match(dateStart) or ReservationsMenu.verifyDateFormat(dateStart)) or dateStart == "":
+        if dateStart == '' or not (dateRegex.match(dateStart) or ReservationsMenu.verifyDateFormat(dateStart)):
             print(Colors.red("Incorrect date end!"))
             return None
         
@@ -109,7 +109,7 @@ class ReservationsMenu:
         dtStart = dt(int(dateStartSplitted[2]), int(dateStartSplitted[1]), int(dateStartSplitted[0]))
         
         dateEnd = input("Date end (dd/mm/yyyy): ")
-        if not (dateRegex.match(dateEnd) or ReservationsMenu.verifyDateFormat(dateEnd)) or dateEnd == "":
+        if dateEnd == '' or not (dateRegex.match(dateEnd) or ReservationsMenu.verifyDateFormat(dateEnd)):
             print(Colors.red("Incorrect date end!"))
             return None
         
@@ -160,7 +160,15 @@ class ReservationsMenu:
         print("(0) Go back")
 
         while(True):
-            userInput = int(input("Id: "))
+            while(True):
+                userInput = input(Colors.magenta("Id: "))
+
+                if userInput.isdigit():
+                    break
+
+                print(Colors.red("You can only enter integer to choose!"))
+
+            userInput = int(userInput)
 
             if userInput >= 0 and userInput <= len(reservations):
                 break

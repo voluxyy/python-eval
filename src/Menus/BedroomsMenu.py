@@ -53,6 +53,10 @@ class BedroomsMenu:
             return None
 
         price = input("Price: ")
+        if price == "" or not price.isdigit():
+            print(Colors.red("Incorrect Price!"))
+            return None
+        
         priceRegex = re.compile(r'^\d+$')
         if not priceRegex.match(price):
             print(Colors.red("Incorrect Price!"))
@@ -73,7 +77,15 @@ class BedroomsMenu:
         print("(0) Go back")
 
         while(True):
-            userInput = int(input("Id: "))
+            while(True):
+                userInput = input(Colors.magenta("Id: "))
+
+                if userInput.isdigit():
+                    break
+
+                print(Colors.red("You can only enter integer to choose!"))
+
+            userInput = int(userInput)
 
             if userInput >= 0 and userInput <= len(bedrooms):
                 break

@@ -98,7 +98,15 @@ class ClientsMenu:
         print("(0) Go back")
 
         while(True):
-            userInput = int(input("Id: "))
+            while(True):
+                userInput = input(Colors.magenta("Id: "))
+
+                if userInput.isdigit():
+                    break
+
+                print(Colors.red("You can only enter integer to choose!"))
+
+            userInput = int(userInput)
 
             if userInput >= 0 and userInput <= len(clients):
                 break
