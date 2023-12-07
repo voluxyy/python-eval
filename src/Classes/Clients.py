@@ -1,5 +1,5 @@
 import uuid
-import Utils.Json as Json
+from Utils.Json import JSON
 
 class Client:
     def __init__(self, lastname, firstname, birthday, phoneNumber) -> None:
@@ -11,7 +11,7 @@ class Client:
         
 
     def add(client):
-        data = Json.JSON.openJson("clients.json")
+        data = JSON.openJson("clients.json")
 
         clientJson = {
             'id': client.id,
@@ -23,26 +23,26 @@ class Client:
         
         data.append(clientJson)
 
-        Json.JSON.saveJson("clients.json", data)
+        JSON.saveJson("clients.json", data)
 
 
     def remove(id):
-        clients = Json.JSON.openJson("clients.json")
+        clients = JSON.openJson("clients.json")
 
         for client in clients:
             if client['id'] == id:
                 clients.remove(client)
                 break
 
-        Json.JSON.saveJson("clients.json", clients)
+        JSON.saveJson("clients.json", clients)
 
-        reservations = Json.JSON.openJson("reservations.json")
+        reservations = JSON.openJson("reservations.json")
 
         for reservation in reservations:
             if reservation['clientId'] == id:
                 reservations.remove(reservation)
 
-        Json.JSON.saveJson("reservations.json", reservations)
+        JSON.saveJson("reservations.json", reservations)
 
 
     def update(id, newClient):
@@ -56,11 +56,11 @@ class Client:
             'phoneNumber': newClient.phoneNumber
         }
 
-        data = Json.JSON.openJson("clients.json")
+        data = JSON.openJson("clients.json")
         data.append(client)
 
-        Json.JSON.saveJson("clients.json", data)
+        JSON.saveJson("clients.json", data)
 
 
     def getAll() -> []:
-        return Json.JSON.openJson("clients.json")
+        return JSON.openJson("clients.json")

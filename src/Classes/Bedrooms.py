@@ -1,5 +1,5 @@
 import uuid
-import Utils.Json as Json
+from Utils.Json import JSON
 
 class Bedroom:
     def __init__(self, type, price) -> None:
@@ -9,7 +9,7 @@ class Bedroom:
         
 
     def add(bedroom):
-        data = Json.JSON.openJson("bedrooms.json")
+        data = JSON.openJson("bedrooms.json")
 
         bedroomJson = {
             'id': bedroom.id,
@@ -19,26 +19,26 @@ class Bedroom:
         
         data.append(bedroomJson)
 
-        Json.JSON.saveJson("bedrooms.json", data)
+        JSON.saveJson("bedrooms.json", data)
 
 
     def remove(id):
-        bedrooms = Json.JSON.openJson("bedrooms.json")
+        bedrooms = JSON.openJson("bedrooms.json")
 
         for bedroom in bedrooms:
             if bedroom['id'] == id:
                 bedrooms.remove(bedroom)
                 break
             
-        Json.JSON.saveJson("bedrooms.json", bedrooms)
+        JSON.saveJson("bedrooms.json", bedrooms)
 
-        reservations = Json.JSON.openJson("reservations.json")
+        reservations = JSON.openJson("reservations.json")
 
         for reservation in reservations:
             if reservation['bedroomId'] == id:
                 reservations.remove(reservation)
 
-        Json.JSON.saveJson("reservations.json", reservations)
+        JSON.saveJson("reservations.json", reservations)
 
 
     def update(id, newBedroom):
@@ -50,11 +50,11 @@ class Bedroom:
             'price': int(newBedroom.price)
         }
 
-        data = Json.JSON.openJson("bedrooms.json")
+        data = JSON.openJson("bedrooms.json")
         data.append(bedroom)
 
-        Json.JSON.saveJson("bedrooms.json", data)
+        JSON.saveJson("bedrooms.json", data)
 
 
     def getAll() -> []:
-        return Json.JSON.openJson("bedrooms.json")
+        return JSON.openJson("bedrooms.json")

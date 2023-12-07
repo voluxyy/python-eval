@@ -1,5 +1,5 @@
-import Classes.Clients as Clients
-import Utils.Colors as Colors
+from Classes.Clients import Client
+from Utils.Colors import Colors
 import re
 
 class ClientsMenu:
@@ -8,8 +8,8 @@ class ClientsMenu:
         if client == None:
             return
 
-        Clients.Client.add(client)
-        print(Colors.Colors.green("Client created."))
+        Client.add(client)
+        print(Colors.green("Client created."))
 
 
     def RemoveClient():
@@ -17,8 +17,8 @@ class ClientsMenu:
         if id == None:
             return
 
-        Clients.Client.remove(id=id)
-        print(Colors.Colors.green("Client removed."))
+        Client.remove(id=id)
+        print(Colors.green("Client removed."))
 
 
     def UpdateClient():
@@ -32,64 +32,64 @@ class ClientsMenu:
 
         updatedClient.id = id
 
-        Clients.Client.update(id, updatedClient)
-        print(Colors.Colors.green("Client updated."))
+        Client.update(id, updatedClient)
+        print(Colors.green("Client updated."))
 
 
     def PrintAll():
-        clients = Clients.Client.getAll()
+        clients = Client.getAll()
 
         if clients == []:
-            print(Colors.Colors.yellow("There is no clients."))
+            print(Colors.yellow("There is no clients."))
         else:
             print("\nList of clients: ")
             for client in clients:
                 print(f"{client['lastname']}, {client['firstname']}, {client['phoneNumber']}")
 
 
-    def CreateClientInstance() -> Clients.Client:
+    def CreateClientInstance() -> Client:
         namesRegex = re.compile(r'^[a-zA-Z]+$')
 
         lastname = input("Lastname: ")
         if not namesRegex.match(lastname):
-            print(Colors.Colors.red("Incorrect Lastname!"))
+            print(Colors.red("Incorrect Lastname!"))
             return None
 
         firstname = input("Firstname: ")
         if not namesRegex.match(firstname):
-            print(Colors.Colors.red("Incorrect Firstname!"))
+            print(Colors.red("Incorrect Firstname!"))
             return None
 
         birthday = input("Birthday (dd/mm/yyyy): ")
         birthdayRegex = re.compile(r'^\d{2}/\d{2}/\d{4}$')
         if not birthdayRegex.match(birthday):
-            print(Colors.Colors.red("Incorrect birthday date!"))
+            print(Colors.red("Incorrect birthday date!"))
             return None
 
         date = birthday.split("/")
         if not int(date[0]) > 0 or not int(date[0]) < 32:
-            print(Colors.Colors.red("Incorrect birthday date!"))
+            print(Colors.red("Incorrect birthday date!"))
             return None
         if not int(date[1]) > 0 or not int(date[1]) < 13:
-            print(Colors.Colors.red("Incorrect birthday date!"))
+            print(Colors.red("Incorrect birthday date!"))
             return None
         if not int(date[2]) > 0 or not int(date[2]) < 9999:
-            print(Colors.Colors.red("Incorrect birthday date!"))
+            print(Colors.red("Incorrect birthday date!"))
             return None
 
         phoneNumber = input("Phone number: ")
         phoneNumberRegex = re.compile(r'[0-9]{10}')
         if not phoneNumberRegex.match(phoneNumber):
-            print(Colors.Colors.red("Incorrect phone number!"))
+            print(Colors.red("Incorrect phone number!"))
             return None
 
-        return Clients.Client(lastname, firstname, birthday, phoneNumber)
+        return Client(lastname, firstname, birthday, phoneNumber)
     
     
     def ListChoice():
-        clients = Clients.Client.getAll()
+        clients = Client.getAll()
         if len(clients) < 1:
-            print(Colors.Colors.yellow("There is no clients."))
+            print(Colors.yellow("There is no clients."))
             return None
 
         for i, client in enumerate(clients):
@@ -103,7 +103,7 @@ class ClientsMenu:
             if userInput >= 0 and userInput <= len(clients):
                 break
 
-            print(Colors.Colors.cyan(f"Enter a number between 0 and {str(len(clients))} !"))
+            print(Colors.cyan(f"Enter a number between 0 and {str(len(clients))} !"))
 
         if userInput == 0:
             return None

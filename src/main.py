@@ -1,4 +1,4 @@
-import Menus.Menu as Menu
+from Menus.Menu import Menu
 
-Menu.Menu.mainMenu()
+Menu.mainMenu()
 exit(0)

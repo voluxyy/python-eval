@@ -6,5 +6,13 @@
         "dateStart": "2000-10-10 00:00:00",
         "id": "2250a753-bbd7-4d55-b06f-651e9c1aba73",
         "payment": "Carte"
+    },
+    {
+        "bedroomId": "02e7bbaa-965a-4997-aff2-889422e5f346",
+        "clientId": "5617e68a-8b41-4818-9fc7-6af20f2b425c",
+        "dateEnd": "0001-01-03 00:00:00",
+        "dateStart": "0001-01-01 00:00:00",
+        "id": "ff6b52b1-351d-42f3-933b-0cf2bf64e66f",
+        "payment": "Carte"
     }
 ]

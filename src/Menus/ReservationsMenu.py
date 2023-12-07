@@ -1,8 +1,9 @@
-import Classes.Reservations as Reservations
-from Menus import ClientsMenu, BedroomsMenu
-import Utils.Colors as Colors
-import Utils.Json as Json
-import datetime as dt
+from Classes.Reservations import Reservation
+from Menus.ClientsMenu import ClientsMenu
+from Menus.BedroomsMenu import BedroomsMenu
+from Utils.Colors import Colors
+from Utils.Json import JSON
+from datetime import datetime as dt
 import re
 
 class ReservationsMenu:
@@ -11,8 +12,8 @@ class ReservationsMenu:
         if reservation == None:
             return
 
-        Reservations.Reservation.add(reservation)
-        print(Colors.Colors.green("Reservation created."))
+        Reservation.add(reservation)
+        print(Colors.green("Reservation created."))
 
 
     def RemoveReservation():
@@ -20,8 +21,8 @@ class ReservationsMenu:
         if id == None:
             return
 
-        Reservations.Reservation.remove(id=id)
-        print(Colors.Colors.green("Reservation removed."))
+        Reservation.remove(id=id)
+        print(Colors.green("Reservation removed."))
 
 
     def UpdateReservation():
@@ -36,15 +37,15 @@ class ReservationsMenu:
 
         updatedReservation.id = id
 
-        Reservations.Reservation.update(id, updatedReservation)
-        print(Colors.Colors.green("Reservation updated."))
+        Reservation.update(id, updatedReservation)
+        print(Colors.green("Reservation updated."))
 
 
     def PrintAll():
-        reservations = Reservations.Reservation.getAll()
+        reservations = Reservation.getAll()
 
         if reservations == []:
-            print(Colors.Colors.yellow("There is no Reservations."))
+            print(Colors.yellow("There is no Reservations."))
         else:
             print("\nList of Reservations: ")
             for reservation in reservations:
@@ -55,38 +56,38 @@ class ReservationsMenu:
         dateRegex = re.compile(r'^\d{2}/\d{2}/\d{4}$')
 
         inputStartDate = input("Date start (dd/mm/yyyy): ")
-        if not dateRegex.match(inputStartDate) or not ReservationsMenu.verifyDateFormat(inputStartDate):
-            print(Colors.Colors.red("Incorrect date start!"))
+        if not (dateRegex.match(inputEndDate) or ReservationsMenu.verifyDateFormat(inputEndDate)) or inputEndDate == "":
+            print(Colors.red("Incorrect date start!"))
             return None
         
         inputEndDate = input("Date end (dd/mm/yyyy): ")
-        if not dateRegex.match(inputEndDate) or not ReservationsMenu.verifyDateFormat(inputEndDate):
-            print(Colors.Colors.red("Incorrect date end!"))
+        if not (dateRegex.match(inputEndDate) or ReservationsMenu.verifyDateFormat(inputEndDate)) or inputEndDate == "":
+            print(Colors.red("Incorrect date end!"))
             return None
 
-        dtStart = dt.datetime.strptime(inputStartDate, '%d/%m/%Y')
-        dtEnd = dt.datetime.strptime(inputEndDate, '%d/%m/%Y')
+        dtStart = dt.strptime(inputStartDate, '%d/%m/%Y')
+        dtEnd = dt.strptime(inputEndDate, '%d/%m/%Y')
 
         if dtStart >= dtEnd:
-            print(Colors.Colors.red("Start date cannot be after or the same as end date!"))
+            print(Colors.red("Start date cannot be after or the same as end date!"))
             return None
         
-        filteredReservations = Reservations.Reservation.getAvailableBedRooms(dtStart, dtEnd)
+        filteredReservations = Reservation.getAvailableBedRooms(dtStart, dtEnd)
 
         if not filteredReservations:
-            print(Colors.Colors.yellow("Aucune réservation pour la période spécifiée."))
+            print(Colors.yellow("Aucune réservation pour la période spécifiée."))
             return None
         
         dateStartOnly = str(dtStart.isoformat().split("T")[0])
         dateEndOnly = str(dtEnd.isoformat().split("T")[0])
         csv_filename = f"reservations_{dateStartOnly}_{dateEndOnly}.csv"
 
-        Json.JSON.exportCsv(csv_filename, filteredReservations)
+        JSON.exportCsv(csv_filename, filteredReservations)
 
-        print(Colors.Colors.green(f"Reservations from {inputStartDate} to {inputEndDate} has been exported in {csv_filename}."))
+        print(Colors.green(f"Reservations from {inputStartDate} to {inputEndDate} has been exported in {csv_filename}."))
 
 
-    def CreateReservationInstance() -> Reservations.Reservation:
+    def CreateReservationInstance() -> Reservation:
         print("Which client: ")
         clientId = ClientsMenu.ClientsMenu.ListChoice()
         if clientId == None:
@@ -100,29 +101,33 @@ class ReservationsMenu:
         dateRegex = re.compile(r'^\d{2}/\d{2}/\d{4}$')
 
         dateStart = input("Date start (dd/mm/yyyy): ")
-        if not dateRegex.match(dateStart) or not ReservationsMenu.verifyDateFormat(dateStart):
-            print(Colors.Colors.red("Incorrect date end!"))
+        if not (dateRegex.match(dateStart) or ReservationsMenu.verifyDateFormat(dateStart)) or dateStart == "":
+            print(Colors.red("Incorrect date end!"))
             return None
         
-        # Todo: add condition if there is already a reservation on this date
-        
         dateStartSplitted = dateStart.split("/")
-        dtStart = dt.datetime(int(dateStartSplitted[2]), int(dateStartSplitted[1]), int(dateStartSplitted[0]))
+        dtStart = dt(int(dateStartSplitted[2]), int(dateStartSplitted[1]), int(dateStartSplitted[0]))
         
         dateEnd = input("Date end (dd/mm/yyyy): ")
-        if not dateRegex.match(dateEnd) or not ReservationsMenu.verifyDateFormat(dateEnd):
-            print(Colors.Colors.red("Incorrect date end!"))
+        if not (dateRegex.match(dateEnd) or ReservationsMenu.verifyDateFormat(dateEnd)) or dateEnd == "":
+            print(Colors.red("Incorrect date end!"))
             return None
         
         dateEndSplitted = dateEnd.split("/")
-        dtEnd = dt.datetime(int(dateEndSplitted[2]), int(dateEndSplitted[1]), int(dateEndSplitted[0]))
+        dtEnd = dt(int(dateEndSplitted[2]), int(dateEndSplitted[1]), int(dateEndSplitted[0]))
+
+        for reservation in Reservation.getAll():
+            if reservation['bedroomId'] == bedroomId:
+                if reservation['dateStart'] <= dtStart and dtStart <= reservation['dateEnd']:
+                    print(Colors.yellow("There is already a reservation for this bedroom at this moment."))
+                    return None
         
         paymentMethod = input("Payment method (Carte / Paypal / Espece): ")
         if paymentMethod not in ["Carte", "Paypal", "Espece"]:
-            print(Colors.Colors.red("Incorrect payment  method!"))
+            print(Colors.red("Incorrect payment  method!"))
             return None
 
-        return Reservations.Reservation(dtStart, dtEnd, paymentMethod, clientId, bedroomId)
+        return Reservation(dtStart, dtEnd, paymentMethod, clientId, bedroomId)
     
 
     def verifyDateFormat(date) -> bool:
@@ -144,9 +149,9 @@ class ReservationsMenu:
         return False
 
     def ListChoice():
-        reservations = Reservations.Reservation.getAll()
+        reservations = Reservation.getAll()
         if len(reservations) < 1:
-            print(Colors.Colors.yellow("There is no Reservations."))
+            print(Colors.yellow("There is no Reservations."))
             return None
 
         for i, reservation in enumerate(reservations):
@@ -160,7 +165,7 @@ class ReservationsMenu:
             if userInput >= 0 and userInput <= len(reservations):
                 break
 
-            print(Colors.Colors.cyan(f"Enter a number between 0 and {str(len(reservations))} !"))
+            print(Colors.cyan(f"Enter a number between 0 and {str(len(reservations))} !"))
 
         if userInput == 0:
             return None

@@ -1,15 +1,15 @@
-import Classes.Bedrooms as Bedrooms
-import Utils.Colors as Colors
+from Classes.Bedrooms import Bedroom
+from Utils.Colors import Colors
 import re
 
 class BedroomsMenu:
     def AddBedroom():
-        Bedroom = BedroomsMenu.CreateBedroomInstance()
-        if Bedroom == None:
+        bedroom = BedroomsMenu.CreateBedroomInstance()
+        if bedroom == None:
             return
 
-        Bedrooms.Bedroom.add(Bedroom)
-        print(Colors.Colors.green("Bedroom created."))
+        Bedroom.add(bedroom)
+        print(Colors.green("Bedroom created."))
 
 
     def RemoveBedroom():
@@ -17,8 +17,8 @@ class BedroomsMenu:
         if id == None:
             return
 
-        Bedrooms.Bedroom.remove(id=id)
-        print(Colors.Colors.green("Bedroom removed."))
+        Bedroom.remove(id=id)
+        print(Colors.green("Bedroom removed."))
 
 
     def UpdateBedroom():
@@ -32,39 +32,39 @@ class BedroomsMenu:
 
         updatedClient.id = id
 
-        Bedrooms.Bedroom.update(id, updatedClient)
-        print(Colors.Colors.green("Bedroom updated."))
+        Bedroom.update(id, updatedClient)
+        print(Colors.green("Bedroom updated."))
 
 
     def PrintAll():
-        bedrooms = Bedrooms.Bedroom.getAll()
+        bedrooms = Bedroom.getAll()
         if bedrooms == []: 
-            print(Colors.Colors.yellow("There is no bedrooms.")) 
+            print(Colors.yellow("There is no bedrooms.")) 
         else: 
             print("\nList of bedrooms: ")
             for bedroom in bedrooms:
                 print(f"{bedroom['type']}, {str(bedroom['price'])}")
 
 
-    def CreateBedroomInstance() -> Bedrooms.Bedroom:
+    def CreateBedroomInstance() -> Bedroom:
         type = input("Type (simple / double / suite): ")
         if type not in ["simple", "double", "suite"]:
-            print(Colors.Colors.red("Incorrect Type!"))
+            print(Colors.red("Incorrect Type!"))
             return None
 
         price = input("Price: ")
         priceRegex = re.compile(r'^\d+$')
         if not priceRegex.match(price):
-            print(Colors.Colors.red("Incorrect Price!"))
+            print(Colors.red("Incorrect Price!"))
             return None
 
-        return Bedrooms.Bedroom(type, price)
+        return Bedroom(type, price)
     
 
     def ListChoice():
-        bedrooms = Bedrooms.Bedroom.getAll()
+        bedrooms = Bedroom.getAll()
         if len(bedrooms) < 1:
-            print(Colors.Colors.yellow("There is no bedrooms."))
+            print(Colors.yellow("There is no bedrooms."))
             return None
 
         for i, bedroom in enumerate(bedrooms):
@@ -78,7 +78,7 @@ class BedroomsMenu:
             if userInput >= 0 and userInput <= len(bedrooms):
                 break
 
-            print(Colors.Colors.cyan(f"Enter a number between 0 and {str(len(bedrooms))} !"))
+            print(Colors.cyan(f"Enter a number between 0 and {str(len(bedrooms))} !"))
 
         if userInput == 0:
             return None

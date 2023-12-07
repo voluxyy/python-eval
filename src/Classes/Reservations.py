@@ -1,6 +1,6 @@
 import uuid
 import datetime as dt
-import Utils.Json as Json
+from Utils.Json import JSON
 
 class Reservation:
     def __init__(self, dateStart, dateEnd, payment, clientId, bedroomId) -> None:
@@ -12,7 +12,7 @@ class Reservation:
         self.bedroomId = bedroomId
 
     def add(reservation):
-        data = Json.JSON.openJson("reservations.json")
+        data = JSON.openJson("reservations.json")
 
         reservationJson = {
             'id': reservation.id,
@@ -25,18 +25,18 @@ class Reservation:
         
         data.append(reservationJson)
 
-        Json.JSON.saveJson("reservations.json", data)
+        JSON.saveJson("reservations.json", data)
 
 
     def remove(id):
-        data = Json.JSON.openJson("reservations.json")
+        data = JSON.openJson("reservations.json")
 
         for reservation in data:
             if reservation['id'] == id:
                 data.remove(reservation)
                 break
 
-        Json.JSON.saveJson("reservations.json", data)
+        JSON.saveJson("reservations.json", data)
 
 
     def update(id, newReservation):
@@ -51,14 +51,14 @@ class Reservation:
             'bedroomId': newReservation.bedroomId
         }
 
-        data = Json.JSON.openJson("reservations.json")
+        data = JSON.openJson("reservations.json")
         data.append(reservation)
 
-        Json.JSON.saveJson("reservations.json", data)
+        JSON.saveJson("reservations.json", data)
 
 
     def getAll() -> []:
-        reservations = Json.JSON.openJson("reservations.json")
+        reservations = JSON.openJson("reservations.json")
         reservationsFormat = []
 
         for reservation in reservations:
@@ -81,7 +81,7 @@ class Reservation:
     
 
     def getReservationByBedroomId(id):
-        reservations = Json.JSON.openJson("reservations.json")
+        reservations = JSON.openJson("reservations.json")
         reservationsContainsId = []
         
         for reservation in reservations:
