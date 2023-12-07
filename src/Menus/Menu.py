@@ -98,19 +98,17 @@ class Menu:
 
     def Input(str, min, max):
         while(True):
-            while(True):
-                userInput = input(Colors.magenta(str))
-
-                if userInput.isdigit():
-                    break
-
-                print(Colors.red("You can only enter integer to choose!"))
-                    
-            userInput = int(userInput)
-
-            if userInput >= min and userInput <= max:
-                break
+            try:
+                userInput = int(input(Colors.magenta(str)))
                 
-            print(Colors.red(f"Enter a number between {min} and {max} !"))
+                if userInput >= min and userInput <= max:
+                    break
+                else:
+                    raise Exception(2)
+            except Exception as error:
+                    if error.args[0] == 2:
+                        print(Colors.red(f"Enter a number between {min} and {max} !"))
+                    else:
+                        print(Colors.red("You can only enter integer to choose!"))
 
         return userInput

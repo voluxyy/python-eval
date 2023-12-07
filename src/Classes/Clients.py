@@ -2,6 +2,9 @@ import uuid
 from Utils.Json import JSON
 
 class Client:
+    global filePath 
+    filePath = "clients.json"
+
     def __init__(self, lastname, firstname, birthday, phoneNumber) -> None:
         self.id = str(uuid.uuid4())
         self.lastname = lastname
@@ -11,7 +14,7 @@ class Client:
         
 
     def add(client):
-        data = JSON.openJson("clients.json")
+        data = JSON.openJson(filePath)
 
         clientJson = {
             'id': client.id,
@@ -23,18 +26,18 @@ class Client:
         
         data.append(clientJson)
 
-        JSON.saveJson("clients.json", data)
+        JSON.saveJson(filePath, data)
 
 
     def remove(id):
-        clients = JSON.openJson("clients.json")
+        clients = JSON.openJson(filePath)
 
         for client in clients:
             if client['id'] == id:
                 clients.remove(client)
                 break
 
-        JSON.saveJson("clients.json", clients)
+        JSON.saveJson(filePath, clients)
 
         reservations = JSON.openJson("reservations.json")
 
@@ -56,11 +59,11 @@ class Client:
             'phoneNumber': newClient.phoneNumber
         }
 
-        data = JSON.openJson("clients.json")
+        data = JSON.openJson(filePath)
         data.append(client)
 
-        JSON.saveJson("clients.json", data)
+        JSON.saveJson(filePath, data)
 
 
     def getAll() -> []:
-        return JSON.openJson("clients.json")
+        return JSON.openJson(filePath)
