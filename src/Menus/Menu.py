@@ -1,4 +1,5 @@
 from Utils.Colors import Colors
+from Utils.Clear import Clear
 from Menus.ClientsMenu import ClientsMenu
 from Menus.BedroomsMenu import BedroomsMenu
 from Menus.ReservationsMenu import ReservationsMenu
@@ -6,7 +7,8 @@ from Menus.ReservationsMenu import ReservationsMenu
 class Menu:
     def mainMenu():
         while(True):
-            print(Colors.blue("\n**** Main Menu ****"))
+            Clear.ClearTerminal()
+            print(Colors.blue("**** Main Menu ****"))
             print("(1) Manage Clients\n"
                   "(2) Manage Bedrooms\n"
                   "(3) Manage Reservations\n"
@@ -14,7 +16,6 @@ class Menu:
     
             userInput = Menu.Input("Enter number: ", 0, 3)
 
-    
             if userInput == 0:
                 break
             elif userInput == 1:
@@ -27,7 +28,8 @@ class Menu:
 
     def clientsMenu():
         while(True):
-            print(Colors.blue("\n**** Clients Menu ****"))
+            Clear.ClearTerminal()
+            print(Colors.blue("**** Clients Menu ****"))
             print("(1) Add\n"
                   "(2) Update\n"
                   "(3) Remove\n"
@@ -50,7 +52,8 @@ class Menu:
     
     def bedroomsMenu():
         while(True):
-            print(Colors.blue("\n**** Bedrooms Menu ****"))
+            Clear.ClearTerminal()
+            print(Colors.blue("**** Bedrooms Menu ****"))
             print("(1) Add\n"
                   "(2) Update\n"
                   "(3) Remove\n"
@@ -73,7 +76,8 @@ class Menu:
     
     def reservationsMenu():
         while(True):
-            print(Colors.blue("\n**** Reservations Menu ****"))
+            Clear.ClearTerminal()
+            print(Colors.blue("**** Reservations Menu ****"))
             print("(1) Add\n"
                   "(2) Update\n"
                   "(3) Remove\n"

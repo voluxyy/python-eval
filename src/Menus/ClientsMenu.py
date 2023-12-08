@@ -1,15 +1,19 @@
 from Classes.Clients import Client
 from Utils.Colors import Colors
+from Utils.Clear import Clear
 import re
+import time
 
 class ClientsMenu:
     def AddClient():
         client = ClientsMenu.CreateClientInstance()
         if client == None:
+            time.sleep(3)
             return
 
         Client.add(client)
         print(Colors.green("Client created."))
+        time.sleep(1)
 
 
     def RemoveClient():
@@ -19,6 +23,7 @@ class ClientsMenu:
 
         Client.remove(id=id)
         print(Colors.green("Client removed."))
+        time.sleep(1)
 
 
     def UpdateClient():
@@ -28,12 +33,14 @@ class ClientsMenu:
         
         updatedClient = ClientsMenu.CreateClientInstance()
         if updatedClient == None:
+            time.sleep(3)
             return
 
         updatedClient.id = id
 
         Client.update(id, updatedClient)
         print(Colors.green("Client updated."))
+        time.sleep(1)
 
 
     def PrintAll():
@@ -41,13 +48,19 @@ class ClientsMenu:
 
         if clients == []:
             print(Colors.yellow("There is no clients."))
+            time.sleep(1)
         else:
             print("\nList of clients: ")
             for client in clients:
                 print(f"{client['lastname']}, {client['firstname']}, {client['phoneNumber']}")
+        
+            time.sleep(5)
 
 
     def CreateClientInstance() -> Client:
+        Clear.ClearTerminal()
+        print(Colors.blue("**** Client Instance ****"))
+
         namesRegex = re.compile(r'^[a-zA-Z]+$')
 
         lastname = input("Lastname: ")
@@ -87,9 +100,13 @@ class ClientsMenu:
     
     
     def ListChoice():
+        Clear.ClearTerminal()
+        print(Colors.blue("**** Clients List ****"))
+
         clients = Client.getAll()
         if len(clients) < 1:
             print(Colors.yellow("There is no clients."))
+            time.sleep(1)
             return None
 
         for i, client in enumerate(clients):

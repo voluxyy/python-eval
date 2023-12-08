@@ -1,15 +1,19 @@
 from Classes.Bedrooms import Bedroom
 from Utils.Colors import Colors
+from Utils.Clear import Clear
 import re
+import time
 
 class BedroomsMenu:
     def AddBedroom():
         bedroom = BedroomsMenu.CreateBedroomInstance()
         if bedroom == None:
+            time.sleep(3)
             return
 
         Bedroom.add(bedroom)
         print(Colors.green("Bedroom created."))
+        time.sleep(1)
 
 
     def RemoveBedroom():
@@ -19,6 +23,7 @@ class BedroomsMenu:
 
         Bedroom.remove(id=id)
         print(Colors.green("Bedroom removed."))
+        time.sleep(1)
 
 
     def UpdateBedroom():
@@ -28,25 +33,33 @@ class BedroomsMenu:
 
         updatedClient = BedroomsMenu.CreateBedroomInstance()
         if updatedClient == None:
+            time.sleep(3)
             return
 
         updatedClient.id = id
 
         Bedroom.update(id, updatedClient)
         print(Colors.green("Bedroom updated."))
+        time.sleep(1)
 
 
     def PrintAll():
         bedrooms = Bedroom.getAll()
         if bedrooms == []: 
-            print(Colors.yellow("There is no bedrooms.")) 
+            print(Colors.yellow("There is no bedrooms."))
+            time.sleep(1)
         else: 
             print("\nList of bedrooms: ")
             for bedroom in bedrooms:
                 print(f"{bedroom['type']}, {str(bedroom['price'])}")
 
+            time.sleep(5)
+
 
     def CreateBedroomInstance() -> Bedroom:
+        Clear.ClearTerminal()
+        print(Colors.blue("**** Bedroom Instance ****"))
+
         type = input("Type (simple / double / suite): ")
         if type not in ["simple", "double", "suite"]:
             print(Colors.red("Incorrect Type!"))
@@ -66,9 +79,13 @@ class BedroomsMenu:
     
 
     def ListChoice():
+        Clear.ClearTerminal()
+        print(Colors.blue("**** Bedrooms List ****"))
+
         bedrooms = Bedroom.getAll()
         if len(bedrooms) < 1:
             print(Colors.yellow("There is no bedrooms."))
+            time.sleep(1)
             return None
 
         for i, bedroom in enumerate(bedrooms):

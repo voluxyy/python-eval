@@ -2,18 +2,22 @@ from Classes.Reservations import Reservation
 from Menus.ClientsMenu import ClientsMenu
 from Menus.BedroomsMenu import BedroomsMenu
 from Utils.Colors import Colors
+from Utils.Clear import Clear
 from Utils.Json import JSON
 from datetime import datetime as dt
 import re
+import time
 
 class ReservationsMenu:
     def AddReservation():
         reservation = ReservationsMenu.CreateReservationInstance()
         if reservation == None:
+            time.sleep(3)
             return
 
         Reservation.add(reservation)
         print(Colors.green("Reservation created."))
+        time.sleep(1)
 
 
     def RemoveReservation():
@@ -23,22 +27,24 @@ class ReservationsMenu:
 
         Reservation.remove(id=id)
         print(Colors.green("Reservation removed."))
+        time.sleep(1)
 
 
     def UpdateReservation():
         id = ReservationsMenu.ListChoice()
-
         if id == None:
             return
         
         updatedReservation = ReservationsMenu.CreateReservationInstance()
         if updatedReservation == None:
+            time.sleep(3)
             return
 
         updatedReservation.id = id
 
         Reservation.update(id, updatedReservation)
         print(Colors.green("Reservation updated."))
+        time.sleep(1)
 
 
     def PrintAll():
@@ -46,13 +52,19 @@ class ReservationsMenu:
 
         if reservations == []:
             print(Colors.yellow("There is no Reservations."))
+            time.sleep(1)
         else:
             print("\nList of Reservations: ")
             for reservation in reservations:
                 print(str(reservation['dateStart'])+", "+str(reservation['dateEnd'])+", "+reservation['payment'])
 
+            time.sleep(5)
+
 
     def ExportToCsv():
+        Clear.ClearTerminal()
+        print(Colors.blue("**** Export To Csv ****"))
+
         dateRegex = re.compile(r'^\d{2}/\d{2}/\d{4}$')
 
         inputStartDate = input("Date start (dd/mm/yyyy): ")
@@ -88,6 +100,9 @@ class ReservationsMenu:
 
 
     def CreateReservationInstance() -> Reservation:
+        Clear.ClearTerminal()
+        print(Colors.blue("**** Reservation Instance ****"))
+
         print("Which client: ")
         clientId = ClientsMenu.ListChoice()
         if clientId == None:
@@ -149,9 +164,13 @@ class ReservationsMenu:
         return False
 
     def ListChoice():
+        Clear.ClearTerminal()
+        print(Colors.blue("**** Reservations List ****"))
+
         reservations = Reservation.getAll()
         if len(reservations) < 1:
             print(Colors.yellow("There is no Reservations."))
+            time.sleep(1)
             return None
 
         for i, reservation in enumerate(reservations):
