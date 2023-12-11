@@ -17,6 +17,14 @@ class ReservationsMenu:
             time.sleep(3)
             return
         
+        print("\n RESERVATION INSTANCE")
+        print(reservation.id)
+        print(reservation.bedroomId)
+        print(reservation.clientId)
+        print(reservation.dateStart)
+        print(reservation.dateEnd)
+        print(reservation.payment)
+        
         client = Client.getById(reservation.clientId)
         client.addFidelityPoints(10)
         client.update()
@@ -147,19 +155,27 @@ class ReservationsMenu:
 
         dateStart = input("Date start (dd/mm/yyyy): ")
         if dateStart == '' or not dateRegex.match(dateStart) or not ReservationsMenu.verifyDateFormat(dateStart):
-            print(Colors.red("Incorrect date end!"))
+            print(Colors.red("Incorrect date format!"))
             return None
         
         dateStartSplitted = dateStart.split("/")
-        dtStart = dt(int(dateStartSplitted[2]), int(dateStartSplitted[1]), int(dateStartSplitted[0]))
+        try:
+            dtStart = dt(int(dateStartSplitted[2]), int(dateStartSplitted[1]), int(dateStartSplitted[0]))
+        except Exception as e:
+            print(Colors.red(f"Incorrect date because: {e.args[0]}"))
+            return None
         
         dateEnd = input("Date end (dd/mm/yyyy): ")
         if dateEnd == '' or not dateRegex.match(dateEnd) or not ReservationsMenu.verifyDateFormat(dateEnd):
-            print(Colors.red("Incorrect date end!"))
+            print(Colors.red("Incorrect date format!"))
             return None
         
         dateEndSplitted = dateEnd.split("/")
-        dtEnd = dt(int(dateEndSplitted[2]), int(dateEndSplitted[1]), int(dateEndSplitted[0]))
+        try:
+            dtEnd = dt(int(dateEndSplitted[2]), int(dateEndSplitted[1]), int(dateEndSplitted[0]))
+        except:
+            print(Colors.red(f"Incorrect date because: {e.args[0]}"))
+            return None
 
         reservations = Reservation.getAll()
         for reservation in reservations:
@@ -209,13 +225,12 @@ class ReservationsMenu:
 
     def verifyDateFormat(date) -> bool:
         dateStartSplited = date.split("/")
-
         if not int(dateStartSplited[0]) > 0 or not int(dateStartSplited[0]) < 32:
             return False
-        
+
         if not int(dateStartSplited[1]) > 0 or not int(dateStartSplited[1]) < 13:
             return False
-        
+
         if not int(dateStartSplited[2]) > 0 or not int(dateStartSplited[2]) < 9999:
             return False
         
