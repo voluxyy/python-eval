@@ -1,4 +1,6 @@
 from Classes.Reservations import Reservation
+from Classes.Clients import Client
+from Classes.Bedrooms import Bedroom
 from Menus.ClientsMenu import ClientsMenu
 from Menus.BedroomsMenu import BedroomsMenu
 from Utils.Colors import Colors
@@ -14,25 +16,30 @@ class ReservationsMenu:
         if reservation == None:
             time.sleep(3)
             return
+        
+        client = Client.getById(reservation.clientId)
+        client.addFidelityPoints(10)
+        client.update()
 
-        Reservation.add(reservation)
+        reservation.add()
         print(Colors.green("Reservation created."))
+        Clear.askToExit()
         time.sleep(1)
 
 
     def RemoveReservation():
-        id = ReservationsMenu.ListChoice()
-        if id == None:
+        reservation = ReservationsMenu.ListChoice()
+        if reservation == None:
             return
 
-        Reservation.remove(id=id)
+        reservation.remove()
         print(Colors.green("Reservation removed."))
         time.sleep(1)
 
 
     def UpdateReservation():
-        id = ReservationsMenu.ListChoice()
-        if id == None:
+        reservation = ReservationsMenu.ListChoice()
+        if reservation == None:
             return
         
         updatedReservation = ReservationsMenu.CreateReservationInstance()
@@ -40,9 +47,9 @@ class ReservationsMenu:
             time.sleep(3)
             return
 
-        updatedReservation.id = id
+        updatedReservation.id = reservation.id
 
-        Reservation.update(id, updatedReservation)
+        updatedReservation.update()
         print(Colors.green("Reservation updated."))
         time.sleep(1)
 
@@ -56,9 +63,31 @@ class ReservationsMenu:
         else:
             print("\nList of Reservations: ")
             for reservation in reservations:
-                print(str(reservation['dateStart'])+", "+str(reservation['dateEnd'])+", "+reservation['payment'])
+                client = Client.getById(reservation['clientId'])
+                bedroom = Bedroom.getById(reservation['bedroomId'])
+                print(f"{client.firstname} {client.lastname} reserved {bedroom.type} bedroom for {reservation['payment']['price']}€."
+                      f"He used {reservation['payment']['fidelityPointsUsed']} fidelity points."
+                      )
 
-            time.sleep(5)
+            Clear.askToExit()
+
+
+    def PrintAllByClientId():
+        client = ClientsMenu.ListChoice()
+        if client == None:
+            return
+        
+        reservations = Reservation.getAllByClientId(client.id)
+        
+        if reservations == []:
+            print(Colors.yellow("There is no Reservations."))
+            time.sleep(1)
+        else:
+            print(f"\nList of Reservations by {str(client.firstname)} {str(client.lastname)}: ")
+            for reservation in reservations:
+                print(f"{str(reservation['dateStart'])}, {str(reservation['dateEnd'])}, {reservation['payment']}")
+
+            Clear.askToExit()
 
 
     def ExportToCsv():
@@ -68,12 +97,12 @@ class ReservationsMenu:
         dateRegex = re.compile(r'^\d{2}/\d{2}/\d{4}$')
 
         inputStartDate = input("Date start (dd/mm/yyyy): ")
-        if inputStartDate == "" or not (dateRegex.match(inputStartDate) or ReservationsMenu.verifyDateFormat(inputStartDate)):
+        if inputStartDate == "" or not dateRegex.match(inputStartDate) or not ReservationsMenu.verifyDateFormat(inputStartDate):
             print(Colors.red("Incorrect date start!"))
             return None
         
         inputEndDate = input("Date end (dd/mm/yyyy): ")
-        if inputEndDate == "" or not (dateRegex.match(inputEndDate) or ReservationsMenu.verifyDateFormat(inputEndDate)):
+        if inputEndDate == "" or not dateRegex.match(inputEndDate) or not ReservationsMenu.verifyDateFormat(inputEndDate):
             print(Colors.red("Incorrect date end!"))
             return None
 
@@ -97,6 +126,7 @@ class ReservationsMenu:
         JSON.exportCsv(csv_filename, filteredReservations)
 
         print(Colors.green(f"Reservations from {inputStartDate} to {inputEndDate} has been exported in {csv_filename}."))
+        time.sleep(3)
 
 
     def CreateReservationInstance() -> Reservation:
@@ -104,19 +134,19 @@ class ReservationsMenu:
         print(Colors.blue("**** Reservation Instance ****"))
 
         print("Which client: ")
-        clientId = ClientsMenu.ListChoice()
-        if clientId == None:
+        client = ClientsMenu.ListChoice()
+        if client == None:
             return
 
         print("Which room: ")
-        bedroomId = BedroomsMenu.ListChoice()
-        if bedroomId == None:
+        bedroom = BedroomsMenu.ListChoice()
+        if bedroom == None:
             return
 
         dateRegex = re.compile(r'^\d{2}/\d{2}/\d{4}$')
 
         dateStart = input("Date start (dd/mm/yyyy): ")
-        if dateStart == '' or not (dateRegex.match(dateStart) or ReservationsMenu.verifyDateFormat(dateStart)):
+        if dateStart == '' or not dateRegex.match(dateStart) or not ReservationsMenu.verifyDateFormat(dateStart):
             print(Colors.red("Incorrect date end!"))
             return None
         
@@ -124,25 +154,57 @@ class ReservationsMenu:
         dtStart = dt(int(dateStartSplitted[2]), int(dateStartSplitted[1]), int(dateStartSplitted[0]))
         
         dateEnd = input("Date end (dd/mm/yyyy): ")
-        if dateEnd == '' or not (dateRegex.match(dateEnd) or ReservationsMenu.verifyDateFormat(dateEnd)):
+        if dateEnd == '' or not dateRegex.match(dateEnd) or not ReservationsMenu.verifyDateFormat(dateEnd):
             print(Colors.red("Incorrect date end!"))
             return None
         
         dateEndSplitted = dateEnd.split("/")
         dtEnd = dt(int(dateEndSplitted[2]), int(dateEndSplitted[1]), int(dateEndSplitted[0]))
 
-        for reservation in Reservation.getAll():
-            if reservation['bedroomId'] == bedroomId:
+        reservations = Reservation.getAll()
+        for reservation in reservations:
+            if reservation['bedroomId'] == bedroom.id:
                 if reservation['dateStart'] <= dtStart and dtStart <= reservation['dateEnd']:
                     print(Colors.yellow("There is already a reservation for this bedroom at this moment."))
                     return None
+                
+        if not client.points == 0:
+            while True:
+                print(f"The client has {client.points} fidelity points.")
+                userInput = input("Do you want to use it ? (y/n): ")
+
+                if userInput.isalpha():
+                    try:
+                        if userInput == "y":
+                            price = bedroom.price - (client.points * 0.5)
+                            fidelityPointsUsed = client.points
+                            client.removeFidelityPoints()
+                            client.update()
+                            break
+                        elif userInput == "n":
+                            price = bedroom.price
+                            fidelityPointsUsed = 0
+                            break
+                        else:
+                            raise Exception(1)
+                    except:
+                        print(Colors.red('You can only enter "y" or "n"!'))
+        else:
+            price = bedroom.price
+            fidelityPointsUsed = 0
         
         paymentMethod = input("Payment method (Carte / Paypal / Espece): ")
         if paymentMethod not in ["Carte", "Paypal", "Espece"]:
             print(Colors.red("Incorrect payment  method!"))
             return None
+        
+        payement = {
+            'method': paymentMethod,
+            'fidelityPointsUsed': fidelityPointsUsed,
+            'price': price
+        }
 
-        return Reservation(dtStart, dtEnd, paymentMethod, clientId, bedroomId)
+        return Reservation(dtStart, dtEnd, payement, client.id, bedroom.id)
     
 
     def verifyDateFormat(date) -> bool:
@@ -196,5 +258,9 @@ class ReservationsMenu:
 
         if userInput == 0:
             return None
+        
+        selected = reservations[userInput-1]
+        reservation = Reservation(selected['dateStart'], selected['dateEnd'], selected['payment'], selected['clientId'], selected['bedroomId'])
+        reservation.id == selected['id']
 
-        return str(reservations[userInput-1]['id'])
+        return reservation

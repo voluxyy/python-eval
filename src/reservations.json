@@ -1,18 +1,38 @@
 [
     {
-        "bedroomId": "02e7bbaa-965a-4997-aff2-889422e5f346",
-        "clientId": "5617e68a-8b41-4818-9fc7-6af20f2b425c",
-        "dateEnd": "2001-10-10 00:00:00",
-        "dateStart": "2000-10-10 00:00:00",
-        "id": "2250a753-bbd7-4d55-b06f-651e9c1aba73",
-        "payment": "Carte"
+        "bedroomId": "5d9d1f6d-3ae9-452c-b988-25de914d4329",
+        "clientId": "45cfd986-f432-4873-a731-0d8620cf56db",
+        "dateEnd": "2005-11-30 00:00:00",
+        "dateStart": "2004-10-31 00:00:00",
+        "id": "d962a4c6-8ce9-4639-a286-9013c3255ded",
+        "payment": {
+            "fidelityPointsUsed": 0,
+            "method": "Carte",
+            "price": 1000
+        }
     },
     {
-        "bedroomId": "02e7bbaa-965a-4997-aff2-889422e5f346",
+        "bedroomId": "5d9d1f6d-3ae9-452c-b988-25de914d4329",
         "clientId": "5617e68a-8b41-4818-9fc7-6af20f2b425c",
-        "dateEnd": "0001-01-03 00:00:00",
-        "dateStart": "0001-01-01 00:00:00",
-        "id": "ff6b52b1-351d-42f3-933b-0cf2bf64e66f",
-        "payment": "Carte"
+        "dateEnd": "0222-02-23 00:00:00",
+        "dateStart": "0222-02-22 00:00:00",
+        "id": "4ed005b9-7ee4-41df-a8e7-46689b3c85e4",
+        "payment": {
+            "fidelityPointsUsed": 0,
+            "method": "Paypal",
+            "price": 1000
+        }
+    },
+    {
+        "bedroomId": "5d9d1f6d-3ae9-452c-b988-25de914d4329",
+        "clientId": "efc2988c-e025-450f-8787-1e85499cf42a",
+        "dateEnd": "0012-12-13 00:00:00",
+        "dateStart": "0012-12-12 00:00:00",
+        "id": "81315628-db56-4698-9a85-0f74c3aaa568",
+        "payment": {
+            "fidelityPointsUsed": 0,
+            "method": "Paypal",
+            "price": 1000
+        }
     }
 ]

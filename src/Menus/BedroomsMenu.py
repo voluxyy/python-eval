@@ -11,34 +11,34 @@ class BedroomsMenu:
             time.sleep(3)
             return
 
-        Bedroom.add(bedroom)
+        bedroom.add()
         print(Colors.green("Bedroom created."))
         time.sleep(1)
 
 
     def RemoveBedroom():
-        id = BedroomsMenu.ListChoice()
-        if id == None:
+        bedroom = BedroomsMenu.ListChoice()
+        if bedroom == None:
             return
 
-        Bedroom.remove(id=id)
+        bedroom.remove()
         print(Colors.green("Bedroom removed."))
         time.sleep(1)
 
 
     def UpdateBedroom():
-        id = BedroomsMenu.ListChoice()
-        if id == None:
+        bedroom = BedroomsMenu.ListChoice()
+        if bedroom == None:
             return
 
-        updatedClient = BedroomsMenu.CreateBedroomInstance()
-        if updatedClient == None:
+        updatedBedroom = BedroomsMenu.CreateBedroomInstance()
+        if updatedBedroom == None:
             time.sleep(3)
             return
 
-        updatedClient.id = id
+        updatedBedroom.id = bedroom.id
 
-        Bedroom.update(id, updatedClient)
+        updatedBedroom.update()
         print(Colors.green("Bedroom updated."))
         time.sleep(1)
 
@@ -53,7 +53,7 @@ class BedroomsMenu:
             for bedroom in bedrooms:
                 print(f"{bedroom['type']}, {str(bedroom['price'])}")
 
-            time.sleep(5)
+            Clear.askToExit()
 
 
     def CreateBedroomInstance() -> Bedroom:
@@ -111,5 +111,9 @@ class BedroomsMenu:
 
         if userInput == 0:
             return None
+        
+        selected = bedrooms[userInput-1]
+        bedroom = Bedroom(selected['type'], selected['price'])
+        bedroom.id = selected['id']
 
-        return str(bedrooms[userInput-1]['id'])
+        return bedroom

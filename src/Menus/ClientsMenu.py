@@ -11,24 +11,24 @@ class ClientsMenu:
             time.sleep(3)
             return
 
-        Client.add(client)
+        client.add()
         print(Colors.green("Client created."))
         time.sleep(1)
 
 
     def RemoveClient():
-        id = ClientsMenu.ListChoice()
-        if id == None:
+        client = ClientsMenu.ListChoice()
+        if client == None:
             return
 
-        Client.remove(id=id)
+        client.remove()
         print(Colors.green("Client removed."))
         time.sleep(1)
 
 
     def UpdateClient():
-        id = ClientsMenu.ListChoice()
-        if id == None:
+        client = ClientsMenu.ListChoice()
+        if client == None:
             return
         
         updatedClient = ClientsMenu.CreateClientInstance()
@@ -36,9 +36,10 @@ class ClientsMenu:
             time.sleep(3)
             return
 
-        updatedClient.id = id
+        updatedClient.id = client.id
+        updatedClient.points = client.points
 
-        Client.update(id, updatedClient)
+        updatedClient.update()
         print(Colors.green("Client updated."))
         time.sleep(1)
 
@@ -52,9 +53,9 @@ class ClientsMenu:
         else:
             print("\nList of clients: ")
             for client in clients:
-                print(f"{client['lastname']}, {client['firstname']}, {client['phoneNumber']}")
+                print(f"{client['lastname']}, {client['firstname']}, {client['phoneNumber']}, {client['points']}")
         
-            time.sleep(5)
+            Clear.askToExit()
 
 
     def CreateClientInstance() -> Client:
@@ -133,4 +134,9 @@ class ClientsMenu:
         if userInput == 0:
             return None
 
-        return str(clients[userInput-1]['id'])
+        selected = clients[userInput-1]
+        client = Client(selected['lastname'], selected['firstname'], selected['birthday'], selected['phoneNumber'])
+        client.id = selected['id']
+        client.points = selected['points']
+
+        return client

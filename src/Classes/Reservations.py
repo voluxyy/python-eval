@@ -3,6 +3,9 @@ import datetime as dt
 from Utils.Json import JSON
 
 class Reservation:
+    global filePath
+    filePath = "reservations.json"
+
     def __init__(self, dateStart, dateEnd, payment, clientId, bedroomId) -> None:
         self.id = str(uuid.uuid4())
         self.dateStart = dateStart
@@ -11,54 +14,46 @@ class Reservation:
         self.clientId = clientId
         self.bedroomId = bedroomId
 
-    def add(reservation):
-        data = JSON.openJson("reservations.json")
+    def add(self):
+        data = JSON.openJson(filePath)
+        print(f"data: {data}")
 
         reservationJson = {
-            'id': reservation.id,
-            'dateStart': str(reservation.dateStart),
-            'dateEnd': str(reservation.dateEnd),
-            'payment': reservation.payment,
-            'clientId': reservation.clientId,
-            'bedroomId': reservation.bedroomId
+            'id': self.id,
+            'dateStart': str(self.dateStart),
+            'dateEnd': str(self.dateEnd),
+            'payment': self.payment,
+            'clientId': self.clientId,
+            'bedroomId': self.bedroomId
         }
         
         data.append(reservationJson)
 
-        JSON.saveJson("reservations.json", data)
+        JSON.saveJson(filePath, data)
 
 
-    def remove(id):
-        data = JSON.openJson("reservations.json")
+    def remove(self):
+        data = JSON.openJson(filePath)
 
         for reservation in data:
-            if reservation['id'] == id:
+            if reservation['id'] == self.id:
                 data.remove(reservation)
                 break
 
-        JSON.saveJson("reservations.json", data)
+        JSON.saveJson(filePath, data)
 
 
-    def update(id, newReservation):
-        Reservation.remove(id)
+    def update(self):
+        self.remove()
+        self.add()
+        
 
-        reservation = {
-            'id': newReservation.id,
-            'dateStart': str(newReservation.dateStart),
-            'dateEnd': str(newReservation.dateEnd),
-            'payment': newReservation.payment,
-            'clientId': newReservation.clientId,
-            'bedroomId': newReservation.bedroomId
-        }
-
-        data = JSON.openJson("reservations.json")
-        data.append(reservation)
-
-        JSON.saveJson("reservations.json", data)
-
-
+    @staticmethod
     def getAll() -> []:
-        reservations = JSON.openJson("reservations.json")
+        reservations = JSON.openJson(filePath)
+        if not reservations:
+            reservations = []
+
         reservationsFormat = []
 
         for reservation in reservations:
@@ -79,9 +74,9 @@ class Reservation:
 
         return reservationsFormat
     
-
+    @staticmethod
     def getReservationByBedroomId(id):
-        reservations = JSON.openJson("reservations.json")
+        reservations = JSON.openJson(filePath)
         reservationsContainsId = []
         
         for reservation in reservations:
@@ -102,3 +97,11 @@ class Reservation:
                 available_rooms.append(reservation)
 
         return available_rooms
+
+    @staticmethod
+    def getAllByClientId(clientId):
+        reservations = Reservation.getAll()
+
+        reservedByClientId = [reservation for reservation in reservations if reservation['clientId'] == clientId]
+
+        return reservedByClientId

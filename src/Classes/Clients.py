@@ -11,17 +11,19 @@ class Client:
         self.firstname = firstname
         self.birthday = birthday
         self.phoneNumber = phoneNumber
-        
+        self.points = 0
 
-    def add(client):
+
+    def add(self):
         data = JSON.openJson(filePath)
 
         clientJson = {
-            'id': client.id,
-            'lastname': client.lastname,
-            'firstname': client.firstname,
-            'birthday': str(client.birthday),
-            'phoneNumber': client.phoneNumber
+            'id': self.id,
+            'lastname': self.lastname,
+            'firstname': self.firstname,
+            'birthday': str(self.birthday),
+            'phoneNumber': self.phoneNumber,
+            'points': self.points
         }
         
         data.append(clientJson)
@@ -29,11 +31,11 @@ class Client:
         JSON.saveJson(filePath, data)
 
 
-    def remove(id):
+    def remove(self):
         clients = JSON.openJson(filePath)
 
         for client in clients:
-            if client['id'] == id:
+            if client['id'] == self.id:
                 clients.remove(client)
                 break
 
@@ -42,28 +44,40 @@ class Client:
         reservations = JSON.openJson("reservations.json")
 
         for reservation in reservations:
-            if reservation['clientId'] == id:
+            if reservation['clientId'] == self.id:
                 reservations.remove(reservation)
 
         JSON.saveJson("reservations.json", reservations)
 
 
-    def update(id, newClient):
-        Client.remove(id)
-
-        client = {
-            'id': id,
-            'lastname': newClient.lastname,
-            'firstname': newClient.firstname,
-            'birthday': str(newClient.birthday),
-            'phoneNumber': newClient.phoneNumber
-        }
-
-        data = JSON.openJson(filePath)
-        data.append(client)
-
-        JSON.saveJson(filePath, data)
+    def update(self):
+        self.remove()
+        self.add()
 
 
+    @staticmethod
     def getAll() -> []:
         return JSON.openJson(filePath)
+    
+    
+    @staticmethod
+    def getById(id):
+        for client in JSON.openJson(filePath):
+            if client['id'] == id:
+                break
+
+        reClient = Client(client['lastname'], client['firstname'], client['birthday'], client['phoneNumber'])
+        reClient.id = client['id']
+        reClient.points = client['points']
+
+        return reClient
+
+
+    def addFidelityPoints(self, points):
+        self.points += int(points)
+        return self
+    
+    
+    def removeFidelityPoints(self):
+        self.points = 0
+        return self

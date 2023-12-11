@@ -19,6 +19,9 @@ class JSON:
             print(Colors.red(f"An error has been encountered while trying to open json file. This is the error: {error.args[1]}"))
             existing_data = []
 
+        if file_path == "reservations.json":
+            print(f"{file_path}: {existing_data}")
+            
         return existing_data
     
     def exportCsv(csv_filename, filteredReservations):

@@ -1,7 +1,12 @@
 [
     {
         "id": "02e7bbaa-965a-4997-aff2-889422e5f346",
+        "price": 10000,
+        "type": "simple"
+    },
+    {
+        "id": "5d9d1f6d-3ae9-452c-b988-25de914d4329",
         "price": 1000,
-        "type": "double"
+        "type": "simple"
     }
 ]

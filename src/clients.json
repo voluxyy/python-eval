@@ -1,9 +1,26 @@
 [
     {
         "birthday": "31/10/2004",
+        "firstname": "First",
+        "id": "45cfd986-f432-4873-a731-0d8620cf56db",
+        "lastname": "Last",
+        "phoneNumber": "0123456789",
+        "points": 10
+    },
+    {
+        "birthday": "31/10/2004",
         "firstname": "Anael",
         "id": "5617e68a-8b41-4818-9fc7-6af20f2b425c",
         "lastname": "Lasserre",
-        "phoneNumber": "0641048415"
+        "phoneNumber": "0641048415",
+        "points": 120
+    },
+    {
+        "birthday": "31/10/2004",
+        "firstname": "Test",
+        "id": "efc2988c-e025-450f-8787-1e85499cf42a",
+        "lastname": "Test",
+        "phoneNumber": "0123456789",
+        "points": 20
     }
 ]
