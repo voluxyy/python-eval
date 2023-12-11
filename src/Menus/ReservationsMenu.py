@@ -17,21 +17,12 @@ class ReservationsMenu:
             time.sleep(3)
             return
         
-        print("\n RESERVATION INSTANCE")
-        print(reservation.id)
-        print(reservation.bedroomId)
-        print(reservation.clientId)
-        print(reservation.dateStart)
-        print(reservation.dateEnd)
-        print(reservation.payment)
-        
         client = Client.getById(reservation.clientId)
         client.addFidelityPoints(10)
         client.update()
 
         reservation.add()
         print(Colors.green("Reservation created."))
-        Clear.askToExit()
         time.sleep(1)
 
 

@@ -16,7 +16,6 @@ class Reservation:
 
     def add(self):
         data = JSON.openJson(filePath)
-        print(f"data: {data}")
 
         reservationJson = {
             'id': self.id,
